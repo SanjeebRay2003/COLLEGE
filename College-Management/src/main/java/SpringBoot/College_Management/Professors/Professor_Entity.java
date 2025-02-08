@@ -1,9 +1,12 @@
 package SpringBoot.College_Management.Professors;
 
+import SpringBoot.College_Management.Subjects.Subject_Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,5 +21,8 @@ public class Professor_Entity {
     private Integer contactNo;
     private LocalDate dateOfJoining;
     private Boolean isActive;
+
+    @ManyToMany(mappedBy = "professor",cascade = CascadeType.ALL)
+    private Set<Subject_Entity> subjects;
 
 }

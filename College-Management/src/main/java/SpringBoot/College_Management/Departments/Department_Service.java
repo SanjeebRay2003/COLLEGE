@@ -1,5 +1,7 @@
 package SpringBoot.College_Management.Departments;
 
+import SpringBoot.College_Management.Students.Student_Entity;
+import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,7 @@ public class Department_Service {
 
     private final Department_Repository departmentRepository;
     private final ModelMapper modelMapper;
-//    private final Student_Repository studentRepository;
+    private final Student_Repository studentRepository;
 
 
     public Department_DTO addNewDepartment(Department_DTO department) {
@@ -37,4 +39,20 @@ public class Department_Service {
     }
 
 
+    public Department_DTO assignDepartmentToStudents(Long departmentId, Long studentId) {
+
+        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
+        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
+
+        return departmentEntity.flatMap(department -> studentEntity.map(
+                student -> {
+                    student.setDepartment(department);
+                    studentRepository.save(student);
+                    department.getStudents().add(student);
+                    departmentRepository.save(department);
+                   return modelMapper.map(department,Department_DTO.class);
+                }
+        )).orElse(null);
+
+    }
 }

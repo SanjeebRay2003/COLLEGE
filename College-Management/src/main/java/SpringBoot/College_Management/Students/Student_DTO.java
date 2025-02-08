@@ -1,8 +1,11 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Custom_Validation.Validate_Course_Semester;
+import SpringBoot.College_Management.Departments.Department_Entity;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
 
@@ -35,4 +38,6 @@ public class Student_DTO {
     @NotNull(message = "Admission date should not be Null")
     @PastOrPresent(message = "Date should not be future")
     private LocalDate dateOfAdmission;
+
+    private Department_Entity department;
 }

@@ -22,8 +22,7 @@ public class Department_Controller {
         Optional<Department_DTO> departmentDto = departmentService.getDepartmentById(departmentId);
         return departmentDto
                 .map(department -> ResponseEntity.ok(department))
-                .orElseThrow(() -> {throw new ResourceNotFound("department not found with id " +departmentId);
-                });
+                .orElseThrow(() -> new ResourceNotFound("department not found with id " + departmentId));
     }
 
     @PostMapping
@@ -35,6 +34,12 @@ public class Department_Controller {
     @GetMapping
     public ResponseEntity<List<Department_DTO>> getAllDepartments() {
         return ResponseEntity.ok(departmentService.getAllDepartments());
+    }
+
+    @PutMapping(path = "/{departmentId}/student/{studentId}")
+        public ResponseEntity<Department_DTO> assignDepartmentToStudents(@PathVariable Long departmentId,
+                                                         @PathVariable Long studentId){
+        return ResponseEntity.ok(departmentService.assignDepartmentToStudents(departmentId,studentId));
     }
 
 
