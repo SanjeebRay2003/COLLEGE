@@ -1,11 +1,11 @@
-package SpringBoot.College_Management.Custom_Validation;
+package SpringBoot.College_Management.Custom_Validation.Semester;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.List;
 
-public class Course_Semester_Validation implements ConstraintValidator<Validate_Course_Semester,String> {
+public class Semester_Validation implements ConstraintValidator<Validate_Semester,String> {
     @Override
     public boolean isValid(String semester, ConstraintValidatorContext constraintValidatorContext) {
         if (semester == null) return false;

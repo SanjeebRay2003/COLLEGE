@@ -1,5 +1,7 @@
 package SpringBoot.College_Management.Departments;
 
+import SpringBoot.College_Management.Custom_Validation.Course.Validate_Course;
+import SpringBoot.College_Management.Custom_Validation.Departments.Validate_Department;
 import SpringBoot.College_Management.Students.Student_Entity;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -17,10 +19,12 @@ public class Department_DTO {
 
     @NotBlank(message = "Department should not be blank")
     @Size(min = 3,message = "Enter department name in valid range")
+    @Validate_Department
     private String name;
 
     @NotBlank(message = "Course should not be blank")
     @Size(min = 3,message = "Enter Course in valid range")
+    @Validate_Course
     private String course;
 
 

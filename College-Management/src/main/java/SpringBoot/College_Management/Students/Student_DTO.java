@@ -1,11 +1,9 @@
 package SpringBoot.College_Management.Students;
 
-import SpringBoot.College_Management.Custom_Validation.Validate_Course_Semester;
+import SpringBoot.College_Management.Custom_Validation.Semester.Validate_Semester;
 import SpringBoot.College_Management.Departments.Department_Entity;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
 
@@ -24,7 +22,7 @@ public class Student_DTO {
 
     @NotBlank(message = "semester should not be blank")
 //    @Size(min = 1,max = 3,message = "Enter semester in valid range")
-    @Validate_Course_Semester
+    @Validate_Semester
     private String semester;
 
     @NotBlank(message = "Email should not be blank")

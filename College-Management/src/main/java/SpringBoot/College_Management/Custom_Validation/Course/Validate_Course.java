@@ -1,5 +1,6 @@
-package SpringBoot.College_Management.Custom_Validation;
+package SpringBoot.College_Management.Custom_Validation.Course;
 
+import SpringBoot.College_Management.Custom_Validation.Semester.Semester_Validation;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -10,9 +11,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD,ElementType.PARAMETER})
-@Constraint(validatedBy = {Course_Semester_Validation.class})
-public @interface Validate_Course_Semester {
-    String message() default "Enter Roll number in only roman number of valid correct semester";
+@Constraint(validatedBy = {Course_Validation.class})
+public @interface Validate_Course {
+    String message() default "Enter Correct Course in capital letters";
     Class<?>[] groups() default {};
     Class<? extends Payload> [] payload() default{};
 }

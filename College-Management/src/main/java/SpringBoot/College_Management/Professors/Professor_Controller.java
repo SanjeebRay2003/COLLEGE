@@ -33,7 +33,7 @@ public class Professor_Controller {
     }
 
     @PostMapping
-    public ResponseEntity<Professor_DTO> addNewProfessor(@RequestBody Professor_DTO professorDto) {
+    public ResponseEntity<Professor_DTO> addNewProfessor(@RequestBody @Valid Professor_DTO professorDto) {
         Professor_DTO newProfessor = professorService.addNewProfessor(professorDto);
         return new ResponseEntity<>(newProfessor, HttpStatus.CREATED);
     }
