@@ -1,15 +1,21 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Subjects.Subject_Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Professors")
 public class Professor_Entity {
 
@@ -22,7 +28,23 @@ public class Professor_Entity {
     private LocalDate dateOfJoining;
     private Boolean isActive;
 
-    @ManyToMany(mappedBy = "professor",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Subjects_of_Professors",
+            joinColumns = @JoinColumn(name = "subject_Id"),
+            inverseJoinColumns = @JoinColumn(name = "professor_Id"))
+    @JsonIgnore
     private Set<Subject_Entity> subjects;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Professor_Entity that = (Professor_Entity) o;
+        return Objects.equals(professor_Id, that.professor_Id) && Objects.equals(email, that.email) && Objects.equals(contactNo, that.contactNo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(professor_Id, email, contactNo);
+    }
 }

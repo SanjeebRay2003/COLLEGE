@@ -1,12 +1,15 @@
 package SpringBoot.College_Management.Subjects;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Professors.Professor_Entity;
+import SpringBoot.College_Management.Professors.Professor_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
 public class Subject_Service {
 
     private final Subject_Repository subjectRepository;
+    private final Professor_Repository professorRepository;
     private final ModelMapper modelMapper;
 
     public void isExistByID(Long subjectId) {
@@ -55,4 +59,6 @@ public class Subject_Service {
         subjectRepository.deleteById(subjectId);
         return true;
     }
+
+
 }

@@ -1,9 +1,11 @@
 package SpringBoot.College_Management.Professors;
 
+import SpringBoot.College_Management.Subjects.Subject_Entity;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class Professor_DTO {
@@ -25,8 +27,9 @@ public class Professor_DTO {
     @PastOrPresent(message = "Date should not be future")
     private LocalDate dateOfJoining;
 
-
     private Boolean isActive;
+
+    private Set<Subject_Entity> subjects;
 }
 
 

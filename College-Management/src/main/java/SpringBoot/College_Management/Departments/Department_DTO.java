@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class Department_DTO {
@@ -23,5 +24,5 @@ public class Department_DTO {
     private String course;
 
 
-    private List<Student_Entity> students;
+    private Set<Student_Entity> students;
 }

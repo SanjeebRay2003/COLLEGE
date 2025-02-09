@@ -41,11 +41,9 @@ public class Student_Service {
                 .collect(Collectors.toList());
     }
 
+
     public Student_DTO addNewStudent(Student_DTO studentsDto) {
         Student_Entity students = modelMapper.map(studentsDto, Student_Entity.class);
-//        if (studentRepository.isExistByEmail(students.getEmail())) {
-//            throw new RuntimeException("Duplicate value does not acceptable");
-//        }
         Student_Entity savedStudent = studentRepository.save(students);
 
         return modelMapper.map(savedStudent, Student_DTO.class);

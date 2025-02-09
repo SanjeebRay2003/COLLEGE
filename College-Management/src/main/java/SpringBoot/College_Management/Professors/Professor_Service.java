@@ -1,6 +1,9 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Subjects.Subject_DTO;
+import SpringBoot.College_Management.Subjects.Subject_Entity;
+import SpringBoot.College_Management.Subjects.Subject_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -20,7 +23,7 @@ public class Professor_Service {
 
     private final Professor_Repository professorRepository;
     private final ModelMapper modelMapper;
-//    private final Subject_Repository subjectRepository;
+    private final Subject_Repository subjectRepository;
 
     public void isExistByID(Long professorId) {
         boolean isExist = professorRepository.existsById(professorId);// checks the id is present or not
@@ -76,6 +79,22 @@ public class Professor_Service {
         Professor_Entity updateRequiredField = professorRepository.save(professor);
         return modelMapper.map(updateRequiredField,Professor_DTO.class);
 
+    }
+
+    public Professor_DTO assignSubjectsToProfessors(Long professorId, Long subjectId) {
+
+        Optional<Professor_Entity> professorEntity = professorRepository.findById(professorId);
+        Optional<Subject_Entity> subjectEntity = subjectRepository.findById(subjectId);
+
+        return professorEntity.flatMap(professor -> subjectEntity.map(
+                subject -> {
+                    subject.getProfessor().add(professor);
+                    subjectRepository.save(subject);
+                    professor.getSubjects().add(subject);
+                    professorRepository.save(professor);
+                    return modelMapper.map(professor, Professor_DTO.class);
+                }
+        )).orElse(null);
     }
 
 }

@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Subjects.Subject_DTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,4 +60,11 @@ public class Professor_Controller {
         if (update == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(update);
     }
+
+    @PutMapping("/{professorId}/subject/{subjectId}")
+    public ResponseEntity<Professor_DTO> assignSubjectsToProfessors(@PathVariable Long professorId,
+                                                                  @PathVariable Long subjectId){
+        return ResponseEntity.ok(professorService.assignSubjectsToProfessors(professorId,subjectId));
+    }
+
 }

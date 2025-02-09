@@ -1,8 +1,12 @@
 package SpringBoot.College_Management.Subjects;
 
+import SpringBoot.College_Management.Professors.Professor_DTO;
+import SpringBoot.College_Management.Professors.Professor_Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class Subject_DTO {
@@ -12,4 +16,6 @@ public class Subject_DTO {
     @NotBlank(message = "Subject Name should not be blank")
     @Size(min = 3,message = "Enter valid subject name")
     private String subject_Name;
+
+    private Set<Professor_Entity> Professors;
 }
