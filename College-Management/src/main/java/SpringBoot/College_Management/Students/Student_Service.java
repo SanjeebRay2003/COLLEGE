@@ -27,7 +27,7 @@ public class Student_Service {
     public void isExistByID(Long studentId) {
         boolean isExist = studentRepository.existsById(studentId);// checks the id is present or not
         if (!isExist)
-            throw new ResourceNotFound("Employee Not Found with Id : " + studentId);
+            throw new ResourceNotFound("Student Not Found with Id : " + studentId);
     }
 
     public Optional<Student_DTO> getStudentById(Long studentId) {

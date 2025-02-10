@@ -1,5 +1,6 @@
 package SpringBoot.College_Management.Departments;
 
+import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
@@ -60,5 +61,16 @@ public class Department_Service {
                 }
         )).orElse(null);
 
+    }
+    public void isExistByID(Long departmentId) {
+        boolean isExist = departmentRepository.existsById(departmentId);// checks the id is present or not
+        if (!isExist)
+            throw new ResourceNotFound("Deparment Not Found with Id : " + departmentId);
+    }
+
+    public boolean deleteDepartmentById(Long departmentId) {
+        isExistByID(departmentId) ;
+        departmentRepository.deleteById(departmentId);
+        return true;
     }
 }

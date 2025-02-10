@@ -37,6 +37,16 @@ public class Department_Controller {
         return ResponseEntity.ok(departmentService.getAllDepartments());
     }
 
+    @DeleteMapping(path = "/{departmentId}")
+    public ResponseEntity<Boolean> deleteDepartmentById(@PathVariable Long departmentId) {
+        boolean deleted = departmentService.deleteDepartmentById(departmentId);
+        // Response
+        if (deleted) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping(path = "/{departmentId}/student/{studentId}")
         public ResponseEntity<Department_DTO> assignDepartmentToStudents(@PathVariable Long departmentId,
                                                          @PathVariable Long studentId){

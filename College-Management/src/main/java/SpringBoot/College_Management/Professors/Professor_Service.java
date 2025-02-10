@@ -28,7 +28,7 @@ public class Professor_Service {
     public void isExistByID(Long professorId) {
         boolean isExist = professorRepository.existsById(professorId);// checks the id is present or not
         if (!isExist)
-            throw new ResourceNotFound("Employee Not Found with Id : " + professorId);
+            throw new ResourceNotFound("Professor Not Found with Id : " + professorId);
     }
 
     public Optional<Professor_DTO> getProfessorById(Long professorId) {
@@ -71,7 +71,6 @@ public class Professor_Service {
         isExistByID(professorId) ;
         professorRepository.deleteById(professorId);
         return true;
-
     }
     public Professor_DTO partialUpdateProfessorById(Long professorId, Map<String, Object> updates) {
         isExistByID(professorId);
