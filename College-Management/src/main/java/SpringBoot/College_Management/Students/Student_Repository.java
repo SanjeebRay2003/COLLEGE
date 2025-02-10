@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Student_Repository extends JpaRepository<Student_Entity,Long> {
+    boolean existsByEmail(String email);
+    boolean existsByRollNo(String rollNo);
 }

@@ -2,6 +2,7 @@ package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,24 @@ public class Student_Service {
                 .collect(Collectors.toList());
     }
 
+//    public boolean existByEmail(String email) {
+//        boolean isExist = studentRepository.findByEmail(email);
+//        if (isExist) {
+//            throw new RuntimeException("User already exist with email " + email);
+//        }
+//        return isExist;
+//    }
 
     public Student_DTO addNewStudent(Student_DTO studentsDto) {
         Student_Entity students = modelMapper.map(studentsDto, Student_Entity.class);
+
+        if (studentRepository.existsByRollNo(students.getRollNo())){
+            throw new RuntimeException("Student already exist with Roll Number "+ students.getRollNo());
+        }
+        if (studentRepository.existsByEmail(students.getEmail())){
+            throw new RuntimeException("Student already exist with email "+ students.getEmail());
+        }
+
         Student_Entity savedStudent = studentRepository.save(students);
 
         return modelMapper.map(savedStudent, Student_DTO.class);

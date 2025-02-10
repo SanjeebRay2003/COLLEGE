@@ -21,6 +21,12 @@ public class Department_Service {
 
     public Department_DTO addNewDepartment(Department_DTO department) {
         Department_Entity departmentEntity = modelMapper.map(department,Department_Entity.class);
+        if (departmentRepository.existsByName(departmentEntity.getName())) {
+            throw new RuntimeException("Department with "+departmentEntity.getName()+" name is already exists");
+        }
+        if (departmentRepository.existsByCourse(departmentEntity.getCourse())) {
+            throw new RuntimeException("Course with "+departmentEntity.getCourse()+" name is already exists in other department");
+        }
         Department_Entity saveDepartment = departmentRepository.save(departmentEntity);
         return modelMapper.map(saveDepartment,Department_DTO.class);
     }

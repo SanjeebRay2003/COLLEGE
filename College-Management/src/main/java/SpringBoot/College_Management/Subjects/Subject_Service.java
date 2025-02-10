@@ -41,6 +41,9 @@ public class Subject_Service {
 
     public Subject_DTO addNewSubject(Subject_DTO subjectDto) {
         Subject_Entity subjects = modelMapper.map(subjectDto, Subject_Entity.class);
+        if (subjectRepository.existsByName(subjects.getName())) {
+            throw new RuntimeException(subjects.getName()+" subject is already exist");
+        }
         Subject_Entity savedSubjects = subjectRepository.save(subjects);
         return modelMapper.map(savedSubjects, Subject_DTO.class);
     }

@@ -15,13 +15,20 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Departments")
+@Table(
+        name = "Departments",
+        uniqueConstraints = {
+//                @UniqueConstraint(name = "Department_name_unique", columnNames = {"name"}),
+//                @UniqueConstraint(name = "course_unique", columnNames = {"course"})
+        }
+)
 public class Department_Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long department_Id;
 
+    @Column(unique = true,nullable = false)
     private String name;
     @Column(unique = true)
     private String course;

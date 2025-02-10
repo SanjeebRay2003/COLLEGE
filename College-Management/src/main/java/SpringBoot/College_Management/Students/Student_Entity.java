@@ -11,7 +11,13 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Students")
+@Table(
+        name = "Students",
+        uniqueConstraints = {
+//                @UniqueConstraint(name = "rollNo_unique", columnNames = {"rollNo"}),
+//                @UniqueConstraint(name = "email_unique", columnNames = {"email"})
+        }
+)
 public class Student_Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

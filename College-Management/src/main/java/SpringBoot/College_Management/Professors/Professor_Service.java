@@ -39,6 +39,12 @@ public class Professor_Service {
     public Professor_DTO addNewProfessor(Professor_DTO professorDto) {
 
         Professor_Entity professor = modelMapper.map(professorDto,Professor_Entity.class);
+        if (professorRepository.existsByEmail(professor.getEmail())){
+            throw new RuntimeException("Professor already exist with email "+ professor.getEmail());
+        }
+        if (professorRepository.existsByContactNo(professor.getContactNo())){
+            throw new RuntimeException("Professor already exist with contact number "+ professor.getContactNo());
+        }
         Professor_Entity savedProfessor = professorRepository.save(professor);
         return modelMapper.map(savedProfessor,Professor_DTO.class);
 

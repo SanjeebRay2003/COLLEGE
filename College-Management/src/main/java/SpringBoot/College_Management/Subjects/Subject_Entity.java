@@ -15,13 +15,20 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Subjects")
+@Table(
+        name = "Subjects",
+        uniqueConstraints = {
+//                @UniqueConstraint(name = "Subject_name_unique", columnNames = {"name"}),
+
+        }
+)
 public class Subject_Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Subject_Id;
 
-    private String subject_Name;
+    @Column(unique = true,nullable = false)
+    private String name;
 
 
     @ManyToMany(mappedBy = "subjects",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -34,11 +41,11 @@ public class Subject_Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subject_Entity that = (Subject_Entity) o;
-        return Objects.equals(Subject_Id, that.Subject_Id) && Objects.equals(subject_Name, that.subject_Name);
+        return Objects.equals(Subject_Id, that.Subject_Id) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Subject_Id, subject_Name);
+        return Objects.hash(Subject_Id, name);
     }
 }

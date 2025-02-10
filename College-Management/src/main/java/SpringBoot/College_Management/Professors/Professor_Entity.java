@@ -16,15 +16,23 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Professors")
+@Table(
+        name = "Professors",
+        uniqueConstraints = {
+//                @UniqueConstraint(name = "Email_unique", columnNames = {"email"}),
+//                @UniqueConstraint(name = "Contact_unique", columnNames = {"contactNo"})
+        }
+)
 public class Professor_Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long professor_Id;
     private String name;
+    @Column(unique = true,nullable = false)
     private String email;
-    private Integer contactNo;
+    @Column(unique = true,nullable = false)
+    private String contactNo;
     private LocalDate dateOfJoining;
     private Boolean isActive;
 
