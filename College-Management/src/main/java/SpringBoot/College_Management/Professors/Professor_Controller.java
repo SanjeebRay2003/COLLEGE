@@ -61,6 +61,8 @@ public class Professor_Controller {
         return ResponseEntity.ok(update);
     }
 
+    //ASSIGNING SUBJECTS TO PROFESSORS____________________________________________________________________________________________________________________________________
+
     @PutMapping("/{professorId}/subject/{subjectId}")
     public ResponseEntity<Professor_DTO> assignSubjectsToProfessors(@PathVariable Long professorId,
                                                                   @PathVariable Long subjectId){

@@ -1,5 +1,6 @@
 package SpringBoot.College_Management.Departments;
 
+import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Custom_Validation.Course.Validate_Course;
 import SpringBoot.College_Management.Custom_Validation.Departments.Validate_Department;
 import SpringBoot.College_Management.Students.Student_Entity;
@@ -19,14 +20,14 @@ public class Department_DTO {
 
     @NotBlank(message = "Department should not be blank")
     @Size(min = 3,message = "Enter department name in valid range")
-    @Validate_Department
+//    @Validate_Department
     private String name;
 
-    @NotBlank(message = "Course should not be blank")
-    @Size(min = 3,message = "Enter Course in valid range")
-    @Validate_Course
-    private String course;
+//    @NotBlank(message = "Course should not be blank")
+//    @Size(min = 3,message = "Enter Course in valid range")
+//    @Validate_Course
+    private Set<Course_Entity> course;
 
 
-    private Set<Student_Entity> students;
+//    private Set<Student_Entity> students;
 }

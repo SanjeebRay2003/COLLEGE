@@ -46,4 +46,10 @@ public class Course_Controller {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PutMapping(path = "/{courseId}/student/{studentId}")
+    public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable Long courseId,
+                                                                     @PathVariable Long studentId){
+        return ResponseEntity.ok(courseService.assignCourseToStudents(courseId,studentId));
+    }
 }

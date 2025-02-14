@@ -1,6 +1,8 @@
 package SpringBoot.College_Management.Students;
 
+import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Departments.Department_Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,9 +34,11 @@ public class Student_Entity {
     private LocalDate dateOfAdmission;
 
 
+    // mapping with department
     @ManyToOne
-    @JoinColumn(name = "department_Id")
-    private Department_Entity department;
+    @JoinColumn(name = "course")
+    @JsonIgnore
+    private Course_Entity course;
 
 
     @Override

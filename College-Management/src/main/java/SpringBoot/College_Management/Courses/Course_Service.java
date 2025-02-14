@@ -3,6 +3,8 @@ package SpringBoot.College_Management.Courses;
 import SpringBoot.College_Management.Departments.Department_DTO;
 import SpringBoot.College_Management.Departments.Department_Entity;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Students.Student_Entity;
+import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class Course_Service {
     private final Course_Repository courseRepository;
     private final ModelMapper modelMapper;
+    private final Student_Repository studentRepository;
 
     public Course_DTO addNewCourse(Course_DTO courseDto) {
         Course_Entity course = modelMapper.map(courseDto,Course_Entity.class);
@@ -48,5 +51,22 @@ public class Course_Service {
         isExistByID(courseId) ;
         courseRepository.deleteById(courseId);
         return true;
+    }
+
+    public Course_DTO assignCourseToStudents(Long courseId, Long studentId) {
+
+        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
+
+        return courseEntity.flatMap(course -> studentEntity.map(
+                student -> {
+                    student.setCourse(course);
+                    studentRepository.save(student);
+                    course.getStudents().add(student);
+                    courseRepository.save(course);
+                    return modelMapper.map(course,Course_DTO.class);
+                }
+        )).orElse(null);
+
     }
 }

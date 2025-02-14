@@ -1,5 +1,7 @@
 package SpringBoot.College_Management.Departments;
 
+import SpringBoot.College_Management.Courses.Course_Entity;
+import SpringBoot.College_Management.Courses.Course_Repository;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
@@ -18,6 +20,7 @@ public class Department_Service {
     private final Department_Repository departmentRepository;
     private final ModelMapper modelMapper;
     private final Student_Repository studentRepository;
+    private final Course_Repository courseRepository;
 
 
     public Department_DTO addNewDepartment(Department_DTO department) {
@@ -25,9 +28,9 @@ public class Department_Service {
         if (departmentRepository.existsByName(departmentEntity.getName())) {
             throw new RuntimeException("Department with "+departmentEntity.getName()+" name is already exists");
         }
-        if (departmentRepository.existsByCourse(departmentEntity.getCourse())) {
-            throw new RuntimeException("Course with "+departmentEntity.getCourse()+" name is already exists in other department");
-        }
+//        if (departmentRepository.existsByCourse(departmentEntity.getName())) {
+//            throw new RuntimeException("Course with "+departmentEntity.getName()+" name is already exists in other department");
+//        }
         Department_Entity saveDepartment = departmentRepository.save(departmentEntity);
         return modelMapper.map(saveDepartment,Department_DTO.class);
     }
@@ -46,22 +49,7 @@ public class Department_Service {
     }
 
 
-    public Department_DTO assignDepartmentToStudents(Long departmentId, Long studentId) {
 
-        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
-        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
-
-        return departmentEntity.flatMap(department -> studentEntity.map(
-                student -> {
-                    student.setDepartment(department);
-                    studentRepository.save(student);
-                    department.getStudents().add(student);
-                    departmentRepository.save(department);
-                   return modelMapper.map(department,Department_DTO.class);
-                }
-        )).orElse(null);
-
-    }
     public void isExistByID(Long departmentId) {
         boolean isExist = departmentRepository.existsById(departmentId);// checks the id is present or not
         if (!isExist)
@@ -73,4 +61,40 @@ public class Department_Service {
         departmentRepository.deleteById(departmentId);
         return true;
     }
+
+
+// ASSIGNING DEPARTMENT TO STUDENTS___________________________________________________________________________________________________________________________________________________________________
+
+//    public Department_DTO assignDepartmentToStudents(Long departmentId, Long studentId) {
+//
+//        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
+//        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
+//
+//        return departmentEntity.flatMap(department -> studentEntity.map(
+//                student -> {
+//                    student.setDepartment(department);
+//                    studentRepository.save(student);
+//                    department.getStudents().add(student);
+//                    departmentRepository.save(department);
+//                   return modelMapper.map(department,Department_DTO.class);
+//                }
+//        )).orElse(null);
+//
+//    }
+
+    public Department_DTO assignCoursesToDepartment(Long departmentId, Long courseId) {
+        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
+        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+
+        return departmentEntity.flatMap(department -> courseEntity.map(
+                course -> {
+                    course.setDepartment_entity(department);
+                    courseRepository.save(course);
+                    department.getCourse().add(course);
+
+                    return modelMapper.map(department,Department_DTO.class);
+                }
+        )).orElse(null);
+    }
+
 }

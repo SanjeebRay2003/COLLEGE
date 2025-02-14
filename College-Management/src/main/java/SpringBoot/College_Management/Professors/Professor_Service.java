@@ -86,6 +86,8 @@ public class Professor_Service {
 
     }
 
+    //ASSIGNING SUBJECTS TO PROFESSORS____________________________________________________________________________________________________________________________________
+
     public Professor_DTO assignSubjectsToProfessors(Long professorId, Long subjectId) {
 
         Optional<Professor_Entity> professorEntity = professorRepository.findById(professorId);
