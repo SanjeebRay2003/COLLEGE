@@ -3,7 +3,6 @@ package SpringBoot.College_Management.Departments;
 import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Courses.Course_Repository;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,9 +27,6 @@ public class Department_Service {
         if (departmentRepository.existsByName(departmentEntity.getName())) {
             throw new RuntimeException("Department with "+departmentEntity.getName()+" name is already exists");
         }
-//        if (departmentRepository.existsByCourse(departmentEntity.getName())) {
-//            throw new RuntimeException("Course with "+departmentEntity.getName()+" name is already exists in other department");
-//        }
         Department_Entity saveDepartment = departmentRepository.save(departmentEntity);
         return modelMapper.map(saveDepartment,Department_DTO.class);
     }
@@ -62,29 +58,17 @@ public class Department_Service {
         return true;
     }
 
-
-// ASSIGNING DEPARTMENT TO STUDENTS___________________________________________________________________________________________________________________________________________________________________
-
-//    public Department_DTO assignDepartmentToStudents(Long departmentId, Long studentId) {
-//
-//        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
-//        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
-//
-//        return departmentEntity.flatMap(department -> studentEntity.map(
-//                student -> {
-//                    student.setDepartment(department);
-//                    studentRepository.save(student);
-//                    department.getStudents().add(student);
-//                    departmentRepository.save(department);
-//                   return modelMapper.map(department,Department_DTO.class);
-//                }
-//        )).orElse(null);
-//
-//    }
+// ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
     public Department_DTO assignCoursesToDepartment(Long departmentId, Long courseId) {
         Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
         Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+
+
+        if (departmentRepository.existsByCourseId(courseId)){
+            throw new RuntimeException("Course with id " + courseId + " is already exists in other department");
+        }
+
 
         return departmentEntity.flatMap(department -> courseEntity.map(
                 course -> {

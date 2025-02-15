@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.util.ReflectionUtils.findRequiredField;
@@ -52,10 +53,10 @@ public class Professor_Service {
 
 
     public List<Professor_DTO> getAllProfessors() {
-        List<Professor_Entity> students = professorRepository.findAll();
-        return students
+        List<Professor_Entity>  professor = professorRepository.findAll();
+        return professor
                 .stream()
-                .map(employees -> modelMapper.map(employees, Professor_DTO.class))
+                .map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -95,7 +96,7 @@ public class Professor_Service {
 
         return professorEntity.flatMap(professor -> subjectEntity.map(
                 subject -> {
-                    subject.getProfessor().add(professor);
+                    subject.getProfessors().add(professor);
                     subjectRepository.save(subject);
                     professor.getSubjects().add(subject);
                     professorRepository.save(professor);

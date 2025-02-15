@@ -47,9 +47,19 @@ public class Course_Controller {
         return ResponseEntity.notFound().build();
     }
 
+    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
+
     @PutMapping(path = "/{courseId}/student/{studentId}")
     public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable Long courseId,
                                                                      @PathVariable Long studentId){
         return ResponseEntity.ok(courseService.assignCourseToStudents(courseId,studentId));
+    }
+
+    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
+
+    @PutMapping(path = "/{courseId}/semester/{semesterId}")
+    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable Long courseId,
+                                                             @PathVariable Long semesterId){
+        return ResponseEntity.ok(courseService.assignSemestersToCourse(courseId,semesterId));
     }
 }

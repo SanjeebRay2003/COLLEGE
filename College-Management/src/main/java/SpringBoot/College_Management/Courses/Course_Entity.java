@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Courses;
 
 import SpringBoot.College_Management.Departments.Department_Entity;
+import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -38,6 +39,14 @@ public class Course_Entity {
     @JoinColumn(name = "departmentId")
     @JsonIgnore
     private Department_Entity department_entity;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Semesters_Of_Courses",
+            joinColumns = @JoinColumn(name = "Course_Id"),
+            inverseJoinColumns = @JoinColumn(name = "Semester_Id"))
+    @JsonIgnore
+    private Set<Semester_Entity> semesters;
 
 
     @Override

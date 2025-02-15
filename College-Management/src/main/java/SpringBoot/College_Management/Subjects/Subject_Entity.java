@@ -33,7 +33,7 @@ public class Subject_Entity {
 
     @ManyToMany(mappedBy = "subjects",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Professor_Entity> professor;
+    private Set<Professor_Entity> professors;
 
 
     @Override

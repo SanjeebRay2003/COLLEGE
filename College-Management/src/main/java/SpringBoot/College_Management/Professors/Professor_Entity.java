@@ -38,8 +38,8 @@ public class Professor_Entity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Subjects_of_Professors",
-            joinColumns = @JoinColumn(name = "subject_Id"),
-            inverseJoinColumns = @JoinColumn(name = "professor_Id"))
+            joinColumns = @JoinColumn(name = "professor_Id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_Id"))
     @JsonIgnore
     private Set<Subject_Entity> subjects;
 

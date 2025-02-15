@@ -38,7 +38,7 @@ public class Student_Service {
         List<Student_Entity> students = studentRepository.findAll();
         return students
                 .stream()
-                .map(employees -> modelMapper.map(employees, Student_DTO.class))
+                .map(studentEntity -> modelMapper.map(studentEntity, Student_DTO.class))
                 .collect(Collectors.toList());
     }
 

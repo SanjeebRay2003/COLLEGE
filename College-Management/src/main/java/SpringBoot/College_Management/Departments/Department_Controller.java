@@ -47,15 +47,8 @@ public class Department_Controller {
         return ResponseEntity.notFound().build();
     }
 
-// ASSIGNING DEPARTMENT TO STUDENTS___________________________________________________________________________________________________________________________________________________________________
 
-//    @PutMapping(path = "/{departmentId}/student/{studentId}")
-//        public ResponseEntity<Department_DTO> assignDepartmentToStudents(@PathVariable Long departmentId,
-//                                                         @PathVariable Long studentId){
-//        return ResponseEntity.ok(departmentService.assignDepartmentToStudents(departmentId,studentId));
-//    }
-
-    // ASSIGNING COURSES TO DEPARTMENT_________________________________________________________________________________________________________________________
+// ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
     @PutMapping(path = "/{departmentId}/course/{courseId}")
     public ResponseEntity<Department_DTO> assignCoursesToDepartment(@PathVariable Long departmentId,

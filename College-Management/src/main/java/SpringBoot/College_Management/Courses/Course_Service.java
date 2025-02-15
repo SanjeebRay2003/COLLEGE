@@ -3,6 +3,9 @@ package SpringBoot.College_Management.Courses;
 import SpringBoot.College_Management.Departments.Department_DTO;
 import SpringBoot.College_Management.Departments.Department_Entity;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Professors.Professor_DTO;
+import SpringBoot.College_Management.Semesters.Semester_Entity;
+import SpringBoot.College_Management.Semesters.Semester_Repository;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +23,7 @@ public class Course_Service {
     private final Course_Repository courseRepository;
     private final ModelMapper modelMapper;
     private final Student_Repository studentRepository;
+    private final Semester_Repository semesterRepository;
 
     public Course_DTO addNewCourse(Course_DTO courseDto) {
         Course_Entity course = modelMapper.map(courseDto,Course_Entity.class);
@@ -53,10 +58,17 @@ public class Course_Service {
         return true;
     }
 
+
+    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
+
     public Course_DTO assignCourseToStudents(Long courseId, Long studentId) {
 
         Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
         Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
+
+//        if (courseRepository.existsByStudentId(studentId)){
+//            throw new RuntimeException("Student with id "+studentId+" already exist in other course");
+//        }
 
         return courseEntity.flatMap(course -> studentEntity.map(
                 student -> {
@@ -67,6 +79,24 @@ public class Course_Service {
                     return modelMapper.map(course,Course_DTO.class);
                 }
         )).orElse(null);
-
     }
+
+    // ASSIGNING SEMESTERS TO COURSES _________________________________________________________________________________________________________________________
+
+    public Course_DTO assignSemestersToCourse(Long courseId, Long semesterId) {
+
+        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+        Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
+
+        return courseEntity.flatMap(course -> semesterEntity.map(
+                semester -> {
+                    semester.getCourses().add(course);
+                    semesterRepository.save(semester);
+                    course.getSemesters().add(semester);
+                    courseRepository.save(course);
+                    return modelMapper.map(course, Course_DTO.class);
+                }
+        )).orElse(null);
+    }
+
 }
