@@ -34,7 +34,7 @@ public class Student_Entity {
     private LocalDate dateOfAdmission;
 
 
-    // mapping with department
+    //student and course mapping
     @ManyToOne
     @JoinColumn(name = "course")
     @JsonIgnore

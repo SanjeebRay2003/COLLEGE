@@ -44,4 +44,12 @@ public class Semester_Controller {
         if (deleted){ return ResponseEntity.ok(true);}
         return ResponseEntity.notFound().build();
     }
+
+    //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
+
+    @PutMapping(path = "/{semesterId}/subject/{subjectId}")
+    public ResponseEntity<Semester_DTO> assignSubjectsToSemester(@PathVariable Long semesterId,
+                                                 @PathVariable Long subjectId){
+        return ResponseEntity.ok(semesterService.assignSubjectsToSemester(semesterId,subjectId));
+    }
 }

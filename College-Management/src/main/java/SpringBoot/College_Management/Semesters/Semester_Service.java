@@ -3,6 +3,8 @@ package SpringBoot.College_Management.Semesters;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Students.Student_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
+import SpringBoot.College_Management.Subjects.Subject_Entity;
+import SpringBoot.College_Management.Subjects.Subject_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class Semester_Service {
 
     private final Semester_Repository semesterRepository;
+    private final Subject_Repository subjectRepository;
     private final ModelMapper modelMapper;
 
     public Optional<Semester_DTO> getSemesterById(Long semesterId) {
@@ -53,5 +56,21 @@ public class Semester_Service {
 
             return modelMapper.map(savedSemester, Semester_DTO.class);
 
+    }
+
+    public Semester_DTO assignSubjectsToSemester(Long semesterId, Long subjectId) {
+
+        Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
+        Optional<Subject_Entity> subjectEntity = subjectRepository.findById(subjectId);
+
+        return semesterEntity.flatMap(semester -> subjectEntity.map(
+                subject -> {
+                    subject.setSemester(semester);
+                    subjectRepository.save(subject);
+                    semester.getSubjects().add(subject);
+
+                    return modelMapper.map(semester,Semester_DTO.class);
+                }
+        )).orElse(null);
     }
 }

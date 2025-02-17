@@ -30,17 +30,8 @@ public class Department_Entity {
 
     @Column(unique = true,nullable = false)
     private String name;
-//    @Column(unique = true)
-//    private Set<Course_Entity> course;
 
-
-    // Mapping with student
-//    @OneToMany(mappedBy = "department" , cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private Set<Student_Entity> students;
-
-
-     //mapping with course
+     // department and course mapping
     @OneToMany(mappedBy = "department_entity", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Course_Entity> course;

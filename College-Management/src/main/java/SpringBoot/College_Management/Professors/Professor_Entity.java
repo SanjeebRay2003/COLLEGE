@@ -36,6 +36,7 @@ public class Professor_Entity {
     private LocalDate dateOfJoining;
     private Boolean isActive;
 
+    // professor and subject mapping
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Subjects_of_Professors",
             joinColumns = @JoinColumn(name = "professor_Id"),

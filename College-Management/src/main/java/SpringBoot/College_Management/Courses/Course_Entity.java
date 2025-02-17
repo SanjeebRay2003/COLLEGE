@@ -35,12 +35,14 @@ public class Course_Entity {
     @JsonIgnore
     private Set<Student_Entity> students;
 
+    // course and department mapping
     @ManyToOne
     @JoinColumn(name = "departmentId")
     @JsonIgnore
     private Department_Entity department_entity;
 
 
+    // course and semester mapping
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Semesters_Of_Courses",
             joinColumns = @JoinColumn(name = "Course_Id"),

@@ -22,12 +22,12 @@ public class Subject_Controller {
         return ResponseEntity.ok(subjectService.getAllSubjects());
     }
 
-    @GetMapping(path = "/{subjectId}")
-    public ResponseEntity<Subject_DTO> getSubjectById(@PathVariable Long subjectId){
-        Optional<Subject_DTO> student =  subjectService.getSubjectById(subjectId);
+    @GetMapping(path = "/{subjectName}")
+    public ResponseEntity<Subject_DTO> getSubjectById(@PathVariable String subjectName){
+        Optional<Subject_DTO> student =  subjectService.getSubjectById(subjectName);
         return student
                 .map(subjectDto -> ResponseEntity.ok(subjectDto))
-                .orElseThrow(() -> new ResourceNotFound("Student not found with Id : " + subjectId));
+                .orElseThrow(() -> new ResourceNotFound("Student not found with Id : " + subjectName));
     }
 
     @PostMapping
@@ -37,15 +37,15 @@ public class Subject_Controller {
 
     }
 
-    @PutMapping(path = "/{subjectId}")
-    public ResponseEntity<Subject_DTO> updateSubject(@PathVariable Long subjectId , @RequestBody @Valid Subject_DTO subjectDto){
-        subjectService.isExistByID(subjectId);
-        return ResponseEntity.ok(subjectService.updateSubject(subjectId,subjectDto));
+    @PutMapping(path = "/{subjectName}")
+    public ResponseEntity<Subject_DTO> updateSubject(@PathVariable String subjectName , @RequestBody @Valid Subject_DTO subjectDto){
+        subjectService.isExistByID(subjectName);
+        return ResponseEntity.ok(subjectService.updateSubject(subjectName,subjectDto));
     }
 
-    @DeleteMapping(path = "/{subjectId}")
-    public ResponseEntity<Boolean> deleteSubjectById(@PathVariable Long subjectId){
-        boolean deleted = subjectService.deleteSubjectById(subjectId);
+    @DeleteMapping(path = "/{subjectName}")
+    public ResponseEntity<Boolean> deleteSubjectById(@PathVariable String subjectName){
+        boolean deleted = subjectService.deleteSubjectById(subjectName);
         // Response
         if (deleted){ return ResponseEntity.ok(true);}
         return ResponseEntity.notFound().build();
