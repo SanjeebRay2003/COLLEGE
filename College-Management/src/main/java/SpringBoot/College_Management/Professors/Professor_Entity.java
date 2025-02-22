@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,11 +26,11 @@ public class Professor_Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long professor_Id;
+    private Long professorId;
     private String name;
-    @Column(unique = true,nullable = false)
+//    @Column(unique = true,nullable = false)
     private String email;
-    @Column(unique = true,nullable = false)
+//    @Column(unique = true,nullable = false)
     private String contactNo;
     private LocalDate dateOfJoining;
     private Boolean isActive;
@@ -49,11 +48,11 @@ public class Professor_Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Professor_Entity that = (Professor_Entity) o;
-        return Objects.equals(professor_Id, that.professor_Id) && Objects.equals(email, that.email) && Objects.equals(contactNo, that.contactNo);
+        return Objects.equals(professorId, that.professorId) && Objects.equals(email, that.email) && Objects.equals(contactNo, that.contactNo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(professor_Id, email, contactNo);
+        return Objects.hash(professorId, email, contactNo);
     }
 }

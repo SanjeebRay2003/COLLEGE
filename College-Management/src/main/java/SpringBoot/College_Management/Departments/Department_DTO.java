@@ -21,7 +21,7 @@ public class Department_DTO {
     @NotBlank(message = "Department should not be blank")
     @Size(min = 3,message = "Enter department name in valid range")
 //    @Validate_Department
-    private String name;
+    private String department;
 
 //    @NotBlank(message = "Course should not be blank")
 //    @Size(min = 3,message = "Enter Course in valid range")

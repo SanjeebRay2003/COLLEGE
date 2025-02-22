@@ -18,12 +18,12 @@ public class Department_Controller {
     private final Department_Service departmentService;
 
 
-    @GetMapping("/{departmentId}")
-    public ResponseEntity<Department_DTO> getDepartmentById(@PathVariable Long departmentId){
-        Optional<Department_DTO> departmentDto = departmentService.getDepartmentById(departmentId);
+    @GetMapping("/{departmentName}")
+    public ResponseEntity<Department_DTO> getDepartmentByName(@PathVariable String departmentName){
+        Optional<Department_DTO> departmentDto = departmentService.getDepartmentByName(departmentName);
         return departmentDto
                 .map(department -> ResponseEntity.ok(department))
-                .orElseThrow(() -> new ResourceNotFound("department not found with id " + departmentId));
+                .orElseThrow(() -> new ResourceNotFound("department not found with name " + departmentName));
     }
 
     @PostMapping
@@ -37,9 +37,9 @@ public class Department_Controller {
         return ResponseEntity.ok(departmentService.getAllDepartments());
     }
 
-    @DeleteMapping(path = "/{departmentId}")
-    public ResponseEntity<Boolean> deleteDepartmentById(@PathVariable Long departmentId) {
-        boolean deleted = departmentService.deleteDepartmentById(departmentId);
+    @DeleteMapping(path = "/{departmentName}")
+    public ResponseEntity<Boolean> deleteDepartmentById(@PathVariable String departmentName) {
+        boolean deleted = departmentService.deleteDepartmentByName(departmentName);
         // Response
         if (deleted) {
             return ResponseEntity.ok(true);
@@ -50,10 +50,10 @@ public class Department_Controller {
 
 // ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
-    @PutMapping(path = "/{departmentId}/course/{courseId}")
-    public ResponseEntity<Department_DTO> assignCoursesToDepartment(@PathVariable Long departmentId,
-                                                                    @PathVariable Long courseId){
-        return ResponseEntity.ok(departmentService.assignCoursesToDepartment(departmentId,courseId));
+    @PutMapping(path = "/{departmentName}/course/{courseName}")
+    public ResponseEntity<Department_DTO> assignCoursesToDepartment(@PathVariable String departmentName,
+                                                                    @PathVariable String courseName){
+        return ResponseEntity.ok(departmentService.assignCoursesToDepartment(departmentName,courseName));
     }
 
 }

@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface Subject_Repository extends JpaRepository<Subject_Entity,Long> {
+public interface Subject_Repository extends JpaRepository<Subject_Entity,String> {
     boolean existsBySubject(String name);
-    void removeBySubject(String subjectName);
+    void deleteBySubject(String subjectName);
     Optional<Subject_Entity> findBySubject(String subject);
+
 }

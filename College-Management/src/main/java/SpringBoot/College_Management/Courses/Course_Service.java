@@ -1,9 +1,6 @@
 package SpringBoot.College_Management.Courses;
 
-import SpringBoot.College_Management.Departments.Department_DTO;
-import SpringBoot.College_Management.Departments.Department_Entity;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Professors.Professor_DTO;
 import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Semesters.Semester_Repository;
 import SpringBoot.College_Management.Students.Student_Entity;
@@ -11,10 +8,10 @@ import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,14 +24,14 @@ public class Course_Service {
 
     public Course_DTO addNewCourse(Course_DTO courseDto) {
         Course_Entity course = modelMapper.map(courseDto,Course_Entity.class);
-        if (courseRepository.existsByName(course.getName())) {
-            throw new RuntimeException("Course with "+course.getName()+" name is already exists");
+        if (courseRepository.existsByCourse(course.getCourse())) {
+            throw new RuntimeException("Course with "+course.getCourse()+" name is already exists");
         }
         Course_Entity toSaveCourse = courseRepository.save(course);
         return modelMapper.map(toSaveCourse,Course_DTO.class);
     }
-    public Optional<Course_DTO> getCourseById(Long courseId) {
-        return courseRepository.findById(courseId).map(courseEntity -> modelMapper.map(courseEntity, Course_DTO.class));
+    public Optional<Course_DTO> getCourseByName(String courseName) {
+        return courseRepository.findByCourse(courseName).map(courseEntity -> modelMapper.map(courseEntity, Course_DTO.class));
     }
 
     public List<Course_DTO> getAllCourses() {
@@ -46,24 +43,25 @@ public class Course_Service {
 
     }
 
-    public void isExistByID(Long courseId) {
-        boolean isExist = courseRepository.existsById(courseId);// checks the id is present or not
+    public void isExistByID(String courseName) {
+        boolean isExist = courseRepository.existsByCourse(courseName);// checks the id is present or not
         if (!isExist)
-            throw new ResourceNotFound("Deparment Not Found with Id : " + courseId);
+            throw new ResourceNotFound("Course Not Found with name : " + courseName);
     }
 
-    public boolean deleteCourseById(Long courseId) {
-        isExistByID(courseId) ;
-        courseRepository.deleteById(courseId);
+    @Transactional
+    public boolean deleteCourseById(String courseName) {
+        isExistByID(courseName) ;
+        courseRepository.deleteByCourse(courseName);
         return true;
     }
 
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    public Course_DTO assignCourseToStudents(Long courseId, Long studentId) {
+    public Course_DTO assignCourseToStudents(String courseName, Long studentId) {
 
-        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
         Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
 
 //        if (courseRepository.existsByStudentId(studentId)){
@@ -83,9 +81,9 @@ public class Course_Service {
 
     // ASSIGNING SEMESTERS TO COURSES _________________________________________________________________________________________________________________________
 
-    public Course_DTO assignSemestersToCourse(Long courseId, Long semesterId) {
+    public Course_DTO assignSemestersToCourse(String courseName, Long semesterId) {
 
-        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
         Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
 
         return courseEntity.flatMap(course -> semesterEntity.map(

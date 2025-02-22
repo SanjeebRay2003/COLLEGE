@@ -19,12 +19,12 @@ public class Course_Controller {
 
     private final Course_Service courseService;
 
-    @GetMapping("/{courseId}")
-    public ResponseEntity<Course_DTO> getCourseById(@PathVariable Long courseId){
-        Optional<Course_DTO> departmentDto = courseService.getCourseById(courseId);
+    @GetMapping("/{courseName}")
+    public ResponseEntity<Course_DTO> getCourseByName(@PathVariable String courseName){
+        Optional<Course_DTO> departmentDto = courseService.getCourseByName(courseName);
         return departmentDto
                 .map(course -> ResponseEntity.ok(course))
-                .orElseThrow(() -> new ResourceNotFound("department not found with id " + courseId));
+                .orElseThrow(() -> new ResourceNotFound("department not found with id " + courseName));
     }
 
     @GetMapping
@@ -37,9 +37,9 @@ public class Course_Controller {
         return new ResponseEntity<>(courseService.addNewCourse(courseDto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/{courseId}")
-    public ResponseEntity<Boolean> deleteCourseById(@PathVariable Long courseId) {
-        boolean deleted = courseService.deleteCourseById(courseId);
+    @DeleteMapping(path = "/{courseName}")
+    public ResponseEntity<Boolean> deleteCourseById(@PathVariable String courseName) {
+        boolean deleted = courseService.deleteCourseById(courseName);
         // Response
         if (deleted) {
             return ResponseEntity.ok(true);
@@ -49,17 +49,17 @@ public class Course_Controller {
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    @PutMapping(path = "/{courseId}/student/{studentId}")
-    public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable Long courseId,
+    @PutMapping(path = "/{courseName}/student/{studentId}")
+    public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable String courseName,
                                                                      @PathVariable Long studentId){
-        return ResponseEntity.ok(courseService.assignCourseToStudents(courseId,studentId));
+        return ResponseEntity.ok(courseService.assignCourseToStudents(courseName,studentId));
     }
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    @PutMapping(path = "/{courseId}/semester/{semesterId}")
-    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable Long courseId,
+    @PutMapping(path = "/{courseName}/semester/{semesterId}")
+    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable String courseName,
                                                              @PathVariable Long semesterId){
-        return ResponseEntity.ok(courseService.assignSemestersToCourse(courseId,semesterId));
+        return ResponseEntity.ok(courseService.assignSemestersToCourse(courseName,semesterId));
     }
 }

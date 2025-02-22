@@ -29,7 +29,7 @@ public class Course_Entity {
     private Long id;
 
     @Column(unique = true,nullable = false)
-    private String name;
+    private String course;
 
     @OneToMany(mappedBy = "course" , cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
@@ -39,7 +39,7 @@ public class Course_Entity {
     @ManyToOne
     @JoinColumn(name = "departmentId")
     @JsonIgnore
-    private Department_Entity department_entity;
+    private Department_Entity department;
 
 
     // course and semester mapping
@@ -56,11 +56,11 @@ public class Course_Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course_Entity course = (Course_Entity) o;
-        return Objects.equals(id, course.id) && Objects.equals(name, course.name);
+        return Objects.equals(id, course.id) && Objects.equals(this.course, course.course);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, course);
     }
 }

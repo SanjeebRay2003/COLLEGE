@@ -7,6 +7,7 @@ import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +25,15 @@ public class Department_Service {
 
     public Department_DTO addNewDepartment(Department_DTO department) {
         Department_Entity departmentEntity = modelMapper.map(department,Department_Entity.class);
-        if (departmentRepository.existsByName(departmentEntity.getName())) {
-            throw new RuntimeException("Department with "+departmentEntity.getName()+" name is already exists");
+        if (departmentRepository.existsByDepartment(departmentEntity.getDepartment())) {
+            throw new RuntimeException("Department with "+departmentEntity.getDepartment()+" name is already exists");
         }
         Department_Entity saveDepartment = departmentRepository.save(departmentEntity);
         return modelMapper.map(saveDepartment,Department_DTO.class);
     }
 
-    public Optional<Department_DTO> getDepartmentById(Long departmentId) {
-        return departmentRepository.findById(departmentId).map(departmentEntity -> modelMapper.map(departmentEntity, Department_DTO.class));
+    public Optional<Department_DTO> getDepartmentByName(String departmentName) {
+        return departmentRepository.findByDepartment(departmentName).map(departmentEntity -> modelMapper.map(departmentEntity, Department_DTO.class));
     }
 
     public List<Department_DTO> getAllDepartments() {
@@ -46,33 +47,34 @@ public class Department_Service {
 
 
 
-    public void isExistByID(Long departmentId) {
-        boolean isExist = departmentRepository.existsById(departmentId);// checks the id is present or not
+    public void isExistByID(String departmentName) {
+        boolean isExist = departmentRepository.existsByDepartment(departmentName);// checks the department is present or not
         if (!isExist)
-            throw new ResourceNotFound("Deparment Not Found with Id : " + departmentId);
+            throw new ResourceNotFound("Department Not Found with name : " + departmentName);
     }
 
-    public boolean deleteDepartmentById(Long departmentId) {
-        isExistByID(departmentId) ;
-        departmentRepository.deleteById(departmentId);
+    @Transactional
+    public boolean deleteDepartmentByName(String departmentName) {
+        isExistByID(departmentName) ;
+        departmentRepository.deleteByDepartment(departmentName);
         return true;
     }
 
 // ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
-    public Department_DTO assignCoursesToDepartment(Long departmentId, Long courseId) {
-        Optional<Department_Entity> departmentEntity = departmentRepository.findById(departmentId);
-        Optional<Course_Entity> courseEntity = courseRepository.findById(courseId);
+    public Department_DTO assignCoursesToDepartment(String departmentName, String courseName) {
+        Optional<Department_Entity> departmentEntity = departmentRepository.findByDepartment(departmentName);
+        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
 
 
-        if (departmentRepository.existsByCourseId(courseId)){
-            throw new RuntimeException("Course with id " + courseId + " is already exists in other department");
+        if (departmentRepository.existsByCourse(courseEntity.get())){
+            throw new RuntimeException("Course with name "+ courseName + " is already exists in other department");
         }
 
 
         return departmentEntity.flatMap(department -> courseEntity.map(
                 course -> {
-                    course.setDepartment_entity(department);
+                    course.setDepartment(department);
                     courseRepository.save(course);
                     department.getCourse().add(course);
 

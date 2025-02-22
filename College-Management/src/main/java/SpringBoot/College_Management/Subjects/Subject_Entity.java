@@ -23,10 +23,12 @@ import java.util.Set;
         }
 )
 public class Subject_Entity {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long Subject_Id;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Subject_Id;
+
+
     @Column(unique = true,nullable = false)
     private String subject;
 

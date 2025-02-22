@@ -1,19 +1,18 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Subjects.Subject_DTO;
 import SpringBoot.College_Management.Subjects.Subject_Entity;
 import SpringBoot.College_Management.Subjects.Subject_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.util.ReflectionUtils.findRequiredField;
@@ -26,15 +25,22 @@ public class Professor_Service {
     private final ModelMapper modelMapper;
     private final Subject_Repository subjectRepository;
 
-    public void isExistByID(Long professorId) {
-        boolean isExist = professorRepository.existsById(professorId);// checks the id is present or not
-        if (!isExist)
-            throw new ResourceNotFound("Professor Not Found with Id : " + professorId);
+    public void isExistByIdAndName(Long professorId,String professorName) {
+        boolean isExistById = professorRepository.existsById(professorId);// checks the id is present or not
+        if (!isExistById)
+            throw new ResourceNotFound("Professor Not Found with id : " + professorId);
+        boolean isExistByName = professorRepository.existsByName(professorName);
+        if (!isExistByName)
+            throw new ResourceNotFound("Professor Not Found with name : " + professorName);
     }
 
-    public Optional<Professor_DTO> getProfessorById(Long professorId) {
-        return professorRepository.findById(professorId).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
+    public Optional<Professor_DTO> getProfessorByName(Long professorId,String professorName) {
+        return professorRepository.findByProfessorIdOrName(professorId, professorName).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
     }
+
+//    public Optional<Professor_DTO> getProfessorById(Long professorId) {
+//        return professorRepository.findById(professorId).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
+//    }
 
 
     public Professor_DTO addNewProfessor(Professor_DTO professorDto) {
@@ -60,22 +66,27 @@ public class Professor_Service {
                 .collect(Collectors.toList());
     }
 
-    public Professor_DTO updateProfessor(Long professorId, Professor_DTO professorDto) {
-        isExistByID(professorId);
+    public Professor_DTO updateProfessor(Long professorId,String professorName,Professor_DTO professorDto) {
+        isExistByIdAndName(professorId,professorName);
+        Professor_Entity professorEntity = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
         Professor_Entity professor = modelMapper.map(professorDto, Professor_Entity.class);
-        professor.setProfessor_Id(professorId);
+        professor.setProfessorId(professorId);
+//        professor.setName(professorName);
         Professor_Entity updatedProfessor = professorRepository.save(professor);
         return modelMapper.map(updatedProfessor, Professor_DTO.class);
     }
 
-    public boolean deleteProfessorById(Long professorId) {
-        isExistByID(professorId) ;
-        professorRepository.deleteById(professorId);
+    @Transactional
+    public boolean deleteProfessorByName(Long professorId,String professorName) {
+        isExistByIdAndName(professorId,professorName);
+        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
+        professorRepository.deleteByProfessorIdAndName(professorId, professorName);
         return true;
     }
-    public Professor_DTO partialUpdateProfessorById(Long professorId, Map<String, Object> updates) {
-        isExistByID(professorId);
-        Professor_Entity professor = professorRepository.findById(professorId).get();
+
+    public Professor_DTO partialUpdateProfessorByName(Long professorId,String professorName, Map<String, Object> updates) {
+        isExistByIdAndName(professorId,professorName);
+        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
 
         updates.forEach((field, value) -> {
             Field fieldToUpdate = findRequiredField(Professor_Entity.class, field);
@@ -89,10 +100,10 @@ public class Professor_Service {
 
     //ASSIGNING SUBJECTS TO PROFESSORS____________________________________________________________________________________________________________________________________
 
-    public Professor_DTO assignSubjectsToProfessors(Long professorId, Long subjectId) {
+    public Professor_DTO assignSubjectsToProfessors(Long professorId,String professorName, String subjectName) {
 
-        Optional<Professor_Entity> professorEntity = professorRepository.findById(professorId);
-        Optional<Subject_Entity> subjectEntity = subjectRepository.findById(subjectId);
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(professorId, professorName);
+        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
 
         return professorEntity.flatMap(professor -> subjectEntity.map(
                 subject -> {

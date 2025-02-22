@@ -58,10 +58,13 @@ public class Semester_Service {
 
     }
 
-    public Semester_DTO assignSubjectsToSemester(Long semesterId, Long subjectId) {
+    //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
+
+
+    public Semester_DTO assignSubjectsToSemester(Long semesterId, String subjectName) {
 
         Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
-        Optional<Subject_Entity> subjectEntity = subjectRepository.findById(subjectId);
+        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
 
         return semesterEntity.flatMap(semester -> subjectEntity.map(
                 subject -> {

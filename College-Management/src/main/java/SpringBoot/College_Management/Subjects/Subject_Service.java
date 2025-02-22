@@ -5,6 +5,7 @@ import SpringBoot.College_Management.Professors.Professor_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class Subject_Service {
     public void isExistByID(String subjectName) {
         boolean isExist = subjectRepository.existsBySubject(subjectName);// checks the id is present or not
         if (!isExist)
-            throw new ResourceNotFound("Employee Not Found with Id : " + subjectName);
+            throw new ResourceNotFound("Subject Not Found with name : " + subjectName);
     }
 
     public List<Subject_DTO> getAllSubjects() {
@@ -49,15 +50,18 @@ public class Subject_Service {
 
     public Subject_DTO updateSubject(String subjectName, Subject_DTO subjectDto) {
         isExistByID(subjectName);
-        Subject_Entity subject = modelMapper.map(subjectDto, Subject_Entity.class);
-        subject.setSubject(subjectName);
+        Subject_Entity subjectEntity = modelMapper.map(subjectDto, Subject_Entity.class);
+        Subject_Entity subject = subjectRepository.findBySubject(subjectName)
+                .orElseThrow(()-> new ResourceNotFound("subject Not found with name"+subjectName));
+        subject.setSubject(subjectDto.getSubject());
         Subject_Entity updatedSubject = subjectRepository.save(subject);
         return modelMapper.map(updatedSubject, Subject_DTO.class);
     }
 
+    @Transactional
     public boolean deleteSubjectById(String subjectName) {
         isExistByID(subjectName);
-        subjectRepository.removeBySubject(subjectName);
+        subjectRepository.deleteBySubject(subjectName);
         return true;
     }
 

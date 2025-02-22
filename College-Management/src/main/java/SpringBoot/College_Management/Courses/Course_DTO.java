@@ -17,7 +17,7 @@ public class Course_DTO {
 
     @NotBlank(message = "Enter course name")
     @Size(min = 3,message = "Enter course name in valid range")
-    private String name;
+    private String course;
 
     private Department_Entity department;
 
