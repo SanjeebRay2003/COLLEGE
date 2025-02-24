@@ -57,44 +57,5 @@ public class Course_Service {
     }
 
 
-    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
-
-    public Course_DTO assignCourseToStudents(String courseName, Long studentId) {
-
-        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
-        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
-
-//        if (courseRepository.existsByStudentId(studentId)){
-//            throw new RuntimeException("Student with id "+studentId+" already exist in other course");
-//        }
-
-        return courseEntity.flatMap(course -> studentEntity.map(
-                student -> {
-                    student.setCourse(course);
-                    studentRepository.save(student);
-                    course.getStudents().add(student);
-                    courseRepository.save(course);
-                    return modelMapper.map(course,Course_DTO.class);
-                }
-        )).orElse(null);
-    }
-
-    // ASSIGNING SEMESTERS TO COURSES _________________________________________________________________________________________________________________________
-
-    public Course_DTO assignSemestersToCourse(String courseName, Long semesterId) {
-
-        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
-        Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
-
-        return courseEntity.flatMap(course -> semesterEntity.map(
-                semester -> {
-                    semester.getCourses().add(course);
-                    semesterRepository.save(semester);
-                    course.getSemesters().add(semester);
-                    courseRepository.save(course);
-                    return modelMapper.map(course, Course_DTO.class);
-                }
-        )).orElse(null);
-    }
 
 }

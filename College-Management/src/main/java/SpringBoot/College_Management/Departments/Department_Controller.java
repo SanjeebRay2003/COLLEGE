@@ -48,12 +48,6 @@ public class Department_Controller {
     }
 
 
-// ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
-    @PutMapping(path = "/{departmentName}/course/{courseName}")
-    public ResponseEntity<Department_DTO> assignCoursesToDepartment(@PathVariable String departmentName,
-                                                                    @PathVariable String courseName){
-        return ResponseEntity.ok(departmentService.assignCoursesToDepartment(departmentName,courseName));
-    }
 
 }

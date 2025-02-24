@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface Professor_Repository extends JpaRepository<Professor_Entity,Long> {
     boolean existsByEmail(String email);
     boolean existsByContactNo(String contactNo);
-    Optional<Professor_Entity> findByProfessorIdOrName(Long id,String name);
     boolean existsByName(String name);
     void deleteByProfessorIdAndName(Long id,String professor);
     Optional<Professor_Entity> findByProfessorIdAndName(Long id,String name);

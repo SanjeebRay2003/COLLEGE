@@ -23,7 +23,7 @@ import java.util.Objects;
 public class Student_Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long student_Id;
+    private Long studentId;
     @Column(unique = true,nullable = false)
     private String rollNo;
     private String name;

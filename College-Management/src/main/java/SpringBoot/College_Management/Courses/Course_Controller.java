@@ -1,9 +1,7 @@
 package SpringBoot.College_Management.Courses;
 
 
-import SpringBoot.College_Management.Departments.Department_DTO;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,19 +45,4 @@ public class Course_Controller {
         return ResponseEntity.notFound().build();
     }
 
-    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
-
-    @PutMapping(path = "/{courseName}/student/{studentId}")
-    public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable String courseName,
-                                                                     @PathVariable Long studentId){
-        return ResponseEntity.ok(courseService.assignCourseToStudents(courseName,studentId));
-    }
-
-    // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
-
-    @PutMapping(path = "/{courseName}/semester/{semesterId}")
-    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable String courseName,
-                                                             @PathVariable Long semesterId){
-        return ResponseEntity.ok(courseService.assignSemestersToCourse(courseName,semesterId));
-    }
 }

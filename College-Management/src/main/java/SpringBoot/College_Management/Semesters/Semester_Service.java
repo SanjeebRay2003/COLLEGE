@@ -58,22 +58,5 @@ public class Semester_Service {
 
     }
 
-    //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
 
-
-    public Semester_DTO assignSubjectsToSemester(Long semesterId, String subjectName) {
-
-        Optional<Semester_Entity> semesterEntity = semesterRepository.findById(semesterId);
-        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
-
-        return semesterEntity.flatMap(semester -> subjectEntity.map(
-                subject -> {
-                    subject.setSemester(semester);
-                    subjectRepository.save(subject);
-                    semester.getSubjects().add(subject);
-
-                    return modelMapper.map(semester,Semester_DTO.class);
-                }
-        )).orElse(null);
-    }
 }

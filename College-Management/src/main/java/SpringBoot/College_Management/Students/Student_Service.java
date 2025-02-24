@@ -2,10 +2,10 @@ package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -24,14 +24,17 @@ public class Student_Service {
 //    private final Department_Entity departmentEntity;
 
     // It Checks Id is present or not
-    public void isExistByID(Long studentId) {
-        boolean isExist = studentRepository.existsById(studentId);// checks the id is present or not
-        if (!isExist)
-            throw new ResourceNotFound("Student Not Found with Id : " + studentId);
+    public void isExistByIdAndName(Long studentId,String studentName) {
+        boolean isExistById = studentRepository.existsById(studentId);// checks the id is present or not
+        if (!isExistById)
+            throw new ResourceNotFound("Student Not Found with id : " + studentId);
+        boolean isExistByName = studentRepository.existsByName(studentName);
+        if (!isExistByName)
+            throw new ResourceNotFound("Student Not Found with name : " + studentName);
     }
 
-    public Optional<Student_DTO> getStudentById(Long studentId) {
-        return studentRepository.findById(studentId).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
+    public Optional<Student_DTO> getStudentByName(Long studentId,String studentName) {
+        return studentRepository.findByStudentIdAndName(studentId,studentName).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
     }
 
     public List<Student_DTO> getAllStudents() {
@@ -59,23 +62,25 @@ public class Student_Service {
     }
 
 
-    public Student_DTO updateStudent(Long studentId, Student_DTO studentsDto) {
-        isExistByID(studentId);
+    public Student_DTO updateStudent(Long studentId,String studentName, Student_DTO studentsDto) {
+        isExistByIdAndName(studentId,studentName);
         Student_Entity students = modelMapper.map(studentsDto, Student_Entity.class);
-        students.setStudent_Id(studentId);
+        students.setStudentId(studentId);
         Student_Entity updatedStudent = studentRepository.save(students);
         return modelMapper.map(updatedStudent, Student_DTO.class);
     }
 
-    public boolean deleteStudentById(Long studentId) {
-        isExistByID(studentId) ;
-        studentRepository.deleteById(studentId);
+    @Transactional
+    public boolean deleteStudentById(Long studentId,String studentName) {
+        isExistByIdAndName(studentId,studentName) ;
+        Student_Entity student = studentRepository.findByStudentIdAndName(studentId,studentName).get();
+        studentRepository.deleteByStudentIdAndName(studentId,studentName);
         return true;
     }
 
-    public Student_DTO partialUpdateStudentById(Long studentId, Map<String, Object> updates) {
-        isExistByID(studentId);
-        Student_Entity students = studentRepository.findById(studentId).get();
+    public Student_DTO partialUpdateStudentById(Long studentId,String studentName, Map<String, Object> updates) {
+        isExistByIdAndName(studentId,studentName);
+        Student_Entity students = studentRepository.findByStudentIdAndName(studentId,studentName).get();
 
         updates.forEach((field, value) -> {
             Field fieldToUpdate = findRequiredField(Student_Entity.class, field);

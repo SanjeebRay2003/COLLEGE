@@ -35,12 +35,9 @@ public class Professor_Service {
     }
 
     public Optional<Professor_DTO> getProfessorByName(Long professorId,String professorName) {
-        return professorRepository.findByProfessorIdOrName(professorId, professorName).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
+        return professorRepository.findByProfessorIdAndName(professorId, professorName).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
     }
 
-//    public Optional<Professor_DTO> getProfessorById(Long professorId) {
-//        return professorRepository.findById(professorId).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
-//    }
 
 
     public Professor_DTO addNewProfessor(Professor_DTO professorDto) {
@@ -98,23 +95,6 @@ public class Professor_Service {
 
     }
 
-    //ASSIGNING SUBJECTS TO PROFESSORS____________________________________________________________________________________________________________________________________
-
-    public Professor_DTO assignSubjectsToProfessors(Long professorId,String professorName, String subjectName) {
-
-        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(professorId, professorName);
-        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
-
-        return professorEntity.flatMap(professor -> subjectEntity.map(
-                subject -> {
-                    subject.getProfessors().add(professor);
-                    subjectRepository.save(subject);
-                    professor.getSubjects().add(subject);
-                    professorRepository.save(professor);
-                    return modelMapper.map(professor, Professor_DTO.class);
-                }
-        )).orElse(null);
-    }
 
 }
 

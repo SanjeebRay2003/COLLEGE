@@ -60,27 +60,6 @@ public class Department_Service {
         return true;
     }
 
-// ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
-    public Department_DTO assignCoursesToDepartment(String departmentName, String courseName) {
-        Optional<Department_Entity> departmentEntity = departmentRepository.findByDepartment(departmentName);
-        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
-
-
-        if (departmentRepository.existsByCourse(courseEntity.get())){
-            throw new RuntimeException("Course with name "+ courseName + " is already exists in other department");
-        }
-
-
-        return departmentEntity.flatMap(department -> courseEntity.map(
-                course -> {
-                    course.setDepartment(department);
-                    courseRepository.save(course);
-                    department.getCourse().add(course);
-
-                    return modelMapper.map(department,Department_DTO.class);
-                }
-        )).orElse(null);
-    }
 
 }

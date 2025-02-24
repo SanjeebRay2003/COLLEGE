@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Courses;
 
 import SpringBoot.College_Management.Departments.Department_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
 import jakarta.persistence.Column;

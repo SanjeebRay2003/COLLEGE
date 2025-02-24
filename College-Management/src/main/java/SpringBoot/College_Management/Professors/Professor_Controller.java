@@ -24,16 +24,8 @@ public class Professor_Controller {
         Optional<Professor_DTO> professor = professorService.getProfessorByName(professorId, professorName);
         return professor
                 .map(professorDto -> ResponseEntity.ok(professorDto))
-                .orElseThrow(() -> new ResourceNotFound("Professor Not found with name : " + professorName));
+                .orElseThrow(() -> new ResourceNotFound("Professor Not found with id " + professorName+" , name "+professorName));
     }
-
-//    @GetMapping(path = "/{professorId}")
-//    public ResponseEntity<Professor_DTO> getProfessorById(@PathVariable Long professorId) {
-//        Optional<Professor_DTO> professor = professorService.getProfessorById(professorId);
-//        return professor
-//                .map(professorDto -> ResponseEntity.ok(professorDto))
-//                .orElseThrow(() -> new ResourceNotFound("Professor Not found with id : " + professorId));
-//    }
 
 
     @GetMapping
@@ -75,13 +67,5 @@ public class Professor_Controller {
         return ResponseEntity.ok(update);
     }
 
-    //ASSIGNING SUBJECTS TO PROFESSORS____________________________________________________________________________________________________________________________________
-
-    @PutMapping("/id/{professorId}/name/{professorName}/subject/{subjectName}")
-    public ResponseEntity<Professor_DTO> assignSubjectsToProfessors(@PathVariable Long professorId,
-                                                                    @PathVariable String professorName,
-                                                                    @PathVariable String subjectName) {
-        return ResponseEntity.ok(professorService.assignSubjectsToProfessors(professorId,professorName, subjectName));
-    }
 
 }
