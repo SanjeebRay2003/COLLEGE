@@ -20,10 +20,10 @@ public class Student_DTO {
     private String name;
 
 
-//    @NotBlank(message = "semester should not be blank")
+    @NotBlank(message = "semester should not be blank")
 ////    @Size(min = 1,max = 3,message = "Enter semester in valid range")
-//    @Validate_Semester
-//    private String semester;
+    @Validate_Semester
+    private String semester;
 
     @NotBlank(message = "Email should not be blank")
     @Email(message = "Enter valid Email")

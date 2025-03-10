@@ -5,9 +5,6 @@ import SpringBoot.College_Management.Courses.Course_DTO;
 import SpringBoot.College_Management.Departments.Department_DTO;
 //import SpringBoot.College_Management.Semesters.Semester_DTO;
 //import SpringBoot.College_Management.Semesters.Semester_Service;
-//import SpringBoot.College_Management.Semesters.Semester_Service;
-import SpringBoot.College_Management.Semesters.Semester_DTO;
-import SpringBoot.College_Management.Semesters.Semester_Service;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +20,31 @@ public class Assigning_Controllers {
 
     //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
 
-    private final Semester_Service semesterService;
+//    private final Semester_Service semesterService;
 
-    @PutMapping(path = "/semesters/{semester}/{subjectName}")
-    public ResponseEntity<Semester_DTO> assignSubjectsToSemester(@PathVariable String semester,
-                                                                 @PathVariable String subjectName){
-        return ResponseEntity.ok(assigningServices.assignSubjectsToSemester(semester,subjectName));
-    }
+//    @PutMapping(path = "/courses/{courseName}/{semester}/{subjectName}")
+//    public ResponseEntity<Course_DTO> assignSubjectsToSemester(@PathVariable String courseName,
+//                                                               @PathVariable String semester,
+//                                                               @PathVariable String subjectName){
+//        return ResponseEntity.ok(assigningServices.assignSubjectsToSemester(courseName,semester,subjectName));
+//    }
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    @PutMapping(path = "/courses/{courseName}/student/{studentId}")
+    @PutMapping(path = "/courses/{courseName}/year/{year}/student/{studentId}")
     public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable String courseName,
+                                                             @PathVariable Long year,
                                                              @PathVariable Long studentId){
-        return ResponseEntity.ok(assigningServices.assignCourseToStudents(courseName,studentId));
+        return ResponseEntity.ok(assigningServices.assignCourseToStudents(courseName,year,studentId));
     }
 
     // ASSIGNING SEMESTER TO COURSES_________________________________________________________________________________________________________________________
 
-    @PutMapping(path = "/courses/{courseName}/semester/{semester}")
-    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable String courseName,
-                                                              @PathVariable String semester){
-        return ResponseEntity.ok(assigningServices.assignSemestersToCourse(courseName,semester));
-    }
+//    @PutMapping(path = "/courses/{courseName}/semester/{semester}")
+//    public ResponseEntity<Course_DTO> assignSemestersToCourse(@PathVariable String courseName,
+//                                                              @PathVariable String semester){
+//        return ResponseEntity.ok(assigningServices.assignSemestersToCourse(courseName,semester));
+//    }
 
     // ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
 
@@ -62,6 +61,14 @@ public class Assigning_Controllers {
                                                   @PathVariable Long professorId,
                                                   @PathVariable String professorName){
         return assigningServices.assignProfessorsToSubjects(subjectName,professorId,professorName);
+    }
+
+    //ASSIGNING SUBJECTS TO COURSES ____________________________________________________________________________________________________________________________________
+
+    @PutMapping(path = "courses/{courseName}/subjects/{subjectName}")
+    public Course_DTO assignSubjectsToCourses(@PathVariable String courseName,
+                                              @PathVariable String subjectName){
+        return assigningServices.assignSubjectsToCourses(courseName,subjectName);
     }
 
 

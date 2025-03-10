@@ -14,9 +14,10 @@ import SpringBoot.College_Management.Professors.Professor_Repository;
 //import SpringBoot.College_Management.Semesters.Semester_DTO;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
 //import SpringBoot.College_Management.Semesters.Semester_Repository;
-import SpringBoot.College_Management.Semesters.Semester_DTO;
-import SpringBoot.College_Management.Semesters.Semester_Entity;
-import SpringBoot.College_Management.Semesters.Semester_Repository;
+//import SpringBoot.College_Management.Semesters.Semester_DTO;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Repository;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
@@ -36,32 +37,33 @@ public class Assigning_Services {
     private final Course_Repository courseRepository;
     private final Student_Repository studentRepository;
     private final Subject_Repository subjectRepository;
-    private final Semester_Repository semesterRepository;
+//    private final Semester_Repository semesterRepository;
     private final Department_Repository departmentRepository;
     private final Professor_Repository professorRepository;
 
     //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
 
-    public Semester_DTO assignSubjectsToSemester(String semester, String subjectName) {
-
-        Optional<Semester_Entity> semesterEntity = semesterRepository.findBySemester(semester);
-        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
-
-        return semesterEntity.flatMap(semesters -> subjectEntity.map(
-                subject -> {
-                    subject.setSemester(semesters);
-                    subjectRepository.save(subject);
-                    semesters.getSubjects().add(subject);
-
-
-                    return modelMapper.map(semester,Semester_DTO.class);
-                }
-        )).orElse(null);
-    }
+//    public Course_DTO assignSubjectsToSemester(String courseName,String semester, String subjectName) {
+//
+//        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
+//        Optional<Semester_Entity> semesterEntity = semesterRepository.findBySemester(semester);
+//        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
+//
+//        return courseEntity.flatMap(course -> semesterEntity.flatMap(semesters -> subjectEntity.map(
+//                subject -> {
+//                    subject.setSemester(semesters);
+//                    subjectRepository.save(subject);
+//                    semesters.getSubjects().add(subject);
+//                    courseRepository.save(course);
+//
+//                    return modelMapper.map(course,Course_DTO.class);
+//                }
+//        ))).orElse(null);
+//    }
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    public Course_DTO assignCourseToStudents(String courseName, Long studentId) {
+    public Course_DTO assignCourseToStudents(String courseName,Long year, Long studentId) {
 
         Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
         Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
@@ -84,21 +86,21 @@ public class Assigning_Services {
 
     // ASSIGNING SEMESTERS TO COURSES _________________________________________________________________________________________________________________________
 
-    public Course_DTO assignSemestersToCourse(String courseName, String semester) {
-
-        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
-        Optional<Semester_Entity> semesterEntity = semesterRepository.findBySemester(semester);
-
-        return courseEntity.flatMap(course -> semesterEntity.map(
-                semesters -> {
-                    semesters.getCourses().add(course);
-                    semesterRepository.save(semesters);
-                    course.getSemesters().add(semesters);
-                    courseRepository.save(course);
-                    return modelMapper.map(course, Course_DTO.class);
-                }
-        )).orElse(null);
-    }
+//    public Course_DTO assignSemestersToCourse(String courseName, String semester) {
+//
+//        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
+//        Optional<Semester_Entity> semesterEntity = semesterRepository.findBySemester(semester);
+//
+//        return courseEntity.flatMap(course -> semesterEntity.map(
+//                semesters -> {
+//                    semesters.getCourses().add(course);
+//                    semesterRepository.save(semesters);
+//                    course.getSemesters().add(semesters);
+//                    courseRepository.save(course);
+//                    return modelMapper.map(course, Course_DTO.class);
+//                }
+//        )).orElse(null);
+//    }
 
 
     // ASSIGNING COURSES TO DEPARTMENT---------------------------------------------------------------------------------------------------------------------------------
@@ -141,4 +143,22 @@ public class Assigning_Services {
         )).orElse(null);
     }
 
+
+
+    //ASSIGNING SUBJECTS TO COURSES ____________________________________________________________________________________________________________________________________
+
+    public Course_DTO assignSubjectsToCourses(String courseName, String subjectName) {
+        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
+        Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
+
+        return courseEntity.flatMap(course -> subjectEntity.map(
+                subject -> {
+                    subject.setCourse(course);
+                    subjectRepository.save(subject);
+                    course.getSubjects().add(subject);
+
+                    return modelMapper.map(course,Course_DTO.class);
+                }
+        )).orElse(null);
+    }
 }

@@ -1,14 +1,17 @@
 package SpringBoot.College_Management.Courses;
 
 import SpringBoot.College_Management.Departments.Department_Entity;
-import SpringBoot.College_Management.Semesters.Semester_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
+import SpringBoot.College_Management.Subjects.Subject_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,14 +44,20 @@ public class Course_Entity {
     @JsonIgnore
     private Department_Entity department;
 
+    private Integer years;
+
+
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Subject_Entity> subjects;
 
     // course and semester mapping
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Semesters_Of_Courses",
-            joinColumns = @JoinColumn(name = "Course_Id"),
-            inverseJoinColumns = @JoinColumn(name = "Semester_Id"))
-    @JsonIgnore
-    private Set<Semester_Entity> semesters;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "Semesters_Of_Courses",
+//            joinColumns = @JoinColumn(name = "Course_Id"),
+//            inverseJoinColumns = @JoinColumn(name = "Semester_Id"))
+//    @JsonIgnore
+//    private Set<Semester_Entity> semesters;
 
 
     @Override
