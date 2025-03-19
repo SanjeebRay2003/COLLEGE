@@ -31,12 +31,12 @@ public class Course_Controller {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
-    @PostMapping
+    @PostMapping(path = "/ADD")
     public ResponseEntity<Course_DTO> addNewCourse(@RequestBody Course_DTO courseDto){
         return new ResponseEntity<>(courseService.addNewCourse(courseDto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/{courseName}")
+    @DeleteMapping(path = "/delete/{courseName}")
     public ResponseEntity<Boolean> deleteCourseById(@PathVariable String courseName) {
         boolean deleted = courseService.deleteCourseById(courseName);
         // Response

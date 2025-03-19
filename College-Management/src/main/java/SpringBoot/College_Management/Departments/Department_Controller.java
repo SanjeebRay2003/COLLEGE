@@ -26,7 +26,7 @@ public class Department_Controller {
                 .orElseThrow(() -> new ResourceNotFound("department not found with name " + departmentName));
     }
 
-    @PostMapping
+    @PostMapping(path = "/ADD")
     public ResponseEntity<Department_DTO> addNewDepartment(@RequestBody  @Valid Department_DTO department){
         Department_DTO departmentDto = departmentService.addNewDepartment(department);
         return new ResponseEntity<>(departmentDto, HttpStatus.CREATED);
@@ -37,7 +37,7 @@ public class Department_Controller {
         return ResponseEntity.ok(departmentService.getAllDepartments());
     }
 
-    @DeleteMapping(path = "/{departmentName}")
+    @DeleteMapping(path = "/delete/{departmentName}")
     public ResponseEntity<Boolean> deleteDepartmentById(@PathVariable String departmentName) {
         boolean deleted = departmentService.deleteDepartmentByName(departmentName);
         // Response

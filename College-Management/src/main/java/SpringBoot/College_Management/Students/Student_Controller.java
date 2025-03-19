@@ -31,14 +31,14 @@ public class Student_Controller {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @PostMapping
+    @PostMapping(path = "/ADD")
     public ResponseEntity<Student_DTO> addNewStudent (@RequestBody @Valid Student_DTO studentsDto){
         Student_DTO newStudent = studentService.addNewStudent(studentsDto);
         return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
     }
 
 
-    @PutMapping(path = "/id/{studentId}/name/{studentName}")
+    @PutMapping(path = "Update/id/{studentId}/name/{studentName}")
     public ResponseEntity<Student_DTO> updateStudent(@PathVariable Long studentId,
                                                      @PathVariable String studentName,
                                                      @RequestBody @Valid Student_DTO studentsDto) {
@@ -46,7 +46,7 @@ public class Student_Controller {
         return ResponseEntity.ok(studentService.updateStudent(studentId,studentName,studentsDto));
     }
 
-    @DeleteMapping(path = "/id/{studentId}/name/{studentName}")
+    @DeleteMapping(path = "/delete/id/{studentId}/name/{studentName}")
     public ResponseEntity<Boolean> deleteStudentById(@PathVariable Long studentId,
                                                      @PathVariable String studentName){
         boolean deleted = studentService.deleteStudentById(studentId,studentName);
@@ -55,7 +55,7 @@ public class Student_Controller {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping(path = "/id/{studentId}/name/{studentName}")
+    @PatchMapping(path = "/update/id/{studentId}/name/{studentName}")
     public ResponseEntity<Student_DTO> partialUpdateStudentById(@PathVariable Long studentId,
                                                                 @PathVariable String studentName,
                                                                 @RequestBody Map<String, Object> updates){

@@ -33,13 +33,13 @@ public class Professor_Controller {
         return ResponseEntity.ok(professorService.getAllProfessors());
     }
 
-    @PostMapping
+    @PostMapping(path = "/ADD")
     public ResponseEntity<Professor_DTO> addNewProfessor(@RequestBody @Valid Professor_DTO professorDto) {
         Professor_DTO newProfessor = professorService.addNewProfessor(professorDto);
         return new ResponseEntity<>(newProfessor, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/id/{professorId}/name/{professorName}")
+    @PutMapping(path = "/Update/id/{professorId}/name/{professorName}")
     public ResponseEntity<Professor_DTO> updateProfessor(@PathVariable Long professorId,
                                                          @PathVariable String professorName,
                                                          @RequestBody @Valid Professor_DTO professorDto) {
@@ -47,7 +47,7 @@ public class Professor_Controller {
         return ResponseEntity.ok(professorService.updateProfessor(professorId, professorName, professorDto));
     }
 
-    @DeleteMapping(path = "/id/{professorId}/name/{professorName}")
+    @DeleteMapping(path = "/delete/id/{professorId}/name/{professorName}")
     public ResponseEntity<Boolean> deleteProfessorByName(@PathVariable Long professorId,
                                                          @PathVariable String professorName) {
         boolean deleted = professorService.deleteProfessorByName(professorId,professorName);
@@ -58,7 +58,7 @@ public class Professor_Controller {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping(path = "/id/{professorId}/name/{professorName}")
+    @PatchMapping(path = "/update/id/{professorId}/name/{professorName}")
     public ResponseEntity<Professor_DTO> partialUpdateProfessorByName(@PathVariable Long professorId,
                                                                       @PathVariable String professorName,
                                                                       @RequestBody Map<String, Object> updates) {

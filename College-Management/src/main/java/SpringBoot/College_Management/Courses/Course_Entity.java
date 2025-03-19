@@ -47,7 +47,7 @@ public class Course_Entity {
     private Integer years;
 
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course",cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Subject_Entity> subjects;
 
