@@ -2,6 +2,7 @@ package SpringBoot.College_Management.Security_Section.Services;
 
 import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
+import SpringBoot.College_Management.Security_Section.Session.Session_Service;
 import SpringBoot.College_Management.Security_Section.User_Entity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ public class Authentication_Service {
     private final AuthenticationManager authenticationManager;
     private final Jwt_Service jwtService;
     private final User_Service userService;
+    private final Session_Service sessionService;
 
 
 
@@ -26,11 +28,13 @@ public class Authentication_Service {
         User_Entity user = (User_Entity) authentication.getPrincipal();
         String accessToken =  jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
+        sessionService.generateNewSession(user,refreshToken);
         return new Login_Response_DTO(user.getId(), user.getRole(), accessToken,refreshToken);
     }
 
     public Login_Response_DTO refreshToken(String refreshToken) { // generate new access and refresh token using refresh token
         Long userId = jwtService.getUserIdFromToken(refreshToken);
+        sessionService.validateSession(refreshToken);
         User_Entity user = userService.getUserById(userId);
         String accessToken =  jwtService.generateAccessToken(user);
         return new Login_Response_DTO(user.getId(), user.getRole(), accessToken,refreshToken);
