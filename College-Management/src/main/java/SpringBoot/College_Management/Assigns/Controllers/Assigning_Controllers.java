@@ -3,8 +3,6 @@ package SpringBoot.College_Management.Assigns.Controllers;
 import SpringBoot.College_Management.Assigns.Services.Assigning_Services;
 import SpringBoot.College_Management.Courses.Course_DTO;
 import SpringBoot.College_Management.Departments.Department_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_Service;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +69,34 @@ public class Assigning_Controllers {
     public Course_DTO assignSubjectsToCourses(@PathVariable String courseName,
                                               @PathVariable String subjectName){
         return assigningServices.assignSubjectsToCourses(courseName,subjectName);
+    }
+
+    //ASSIGNING HOD TO DEPARTMENT ____________________________________________________________________________________________________________________________________
+
+//    @PutMapping(path = "departments/{department}/hodId/{HodId}/HOD/{HOD}")
+//    public Department_DTO Hod (@PathVariable String department,
+//                               @PathVariable Long HodId,
+//                               @PathVariable String HOD){
+//
+//        return assigningServices.Hod(department,HodId,HOD);
+//    }
+//
+//    @PutMapping(path = "departments/{department}/deanId/{deanId}/Dean/{dean}")
+//    public Department_DTO Dean (@PathVariable String department,
+//                               @PathVariable Long deanId,
+//                               @PathVariable String dean){
+//
+//        return assigningServices.Dean(department,deanId,dean);
+//    }
+
+    @PutMapping(path = "/{department}/HOD/{HodId}/{HOD}/Dean/{deanId}/{dean}")
+    public Department_DTO Hod(@PathVariable String department,
+                              @PathVariable Long HodId,
+                              @PathVariable String HOD,
+                              @PathVariable Long deanId,
+                              @PathVariable String dean) {
+
+        return assigningServices.Hod(department, HodId, HOD,deanId,dean);
     }
 
 

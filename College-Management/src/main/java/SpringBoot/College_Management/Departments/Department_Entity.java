@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Departments;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
+import SpringBoot.College_Management.Professors.Professor_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,12 @@ public class Department_Entity {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Course_Entity> course;
+
+    @OneToOne
+    private Professor_Entity HOD;
+
+    @OneToOne
+    private Professor_Entity Dean;
 
     @Override
     public boolean equals(Object o) {

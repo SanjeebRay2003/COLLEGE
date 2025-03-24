@@ -23,6 +23,7 @@ import SpringBoot.College_Management.Students.Student_Repository;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
 import SpringBoot.College_Management.Subjects.Subject_Entity;
 import SpringBoot.College_Management.Subjects.Subject_Repository;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -161,4 +162,36 @@ public class Assigning_Services {
                 }
         )).orElse(null);
     }
+
+    public Department_DTO Hod(String department,Long HodId, String HOD) {
+
+        Optional<Department_Entity>  departmentEntity = departmentRepository.findByDepartment(department);
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(HodId,HOD);
+
+        return departmentEntity.flatMap(departments -> professorEntity.map(
+                professor -> {
+                    departments.setHOD(professor);
+                    departmentRepository.save(departments);
+
+                    return modelMapper.map(departments,Department_DTO.class);
+                }
+        )).orElse(null);
+    }
+
+    public Department_DTO Dean(String department, Long deanId, String dean) {
+
+        Optional<Department_Entity>  departmentEntity = departmentRepository.findByDepartment(department);
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(deanId,dean);
+
+        return departmentEntity.flatMap(departments -> professorEntity.map(
+                professor -> {
+                    departments.setHOD(professor);
+                    departmentRepository.save(departments);
+
+                    return modelMapper.map(departments,Department_DTO.class);
+                }
+        )).orElse(null);
+    }
+
+
 }
