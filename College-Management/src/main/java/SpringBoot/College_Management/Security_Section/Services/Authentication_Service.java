@@ -29,7 +29,7 @@ public class Authentication_Service {
         String accessToken =  jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         sessionService.generateNewSession(user,refreshToken);
-        return new Login_Response_DTO(user.getId(), user.getRole(), accessToken,refreshToken);
+        return new Login_Response_DTO(user.getId(), user.getRole().toString(), accessToken,refreshToken);
     }
 
     public Login_Response_DTO refreshToken(String refreshToken) { // generate new access and refresh token using refresh token
@@ -37,7 +37,7 @@ public class Authentication_Service {
         sessionService.validateSession(refreshToken);
         User_Entity user = userService.getUserById(userId);
         String accessToken =  jwtService.generateAccessToken(user);
-        return new Login_Response_DTO(user.getId(), user.getRole(), accessToken,refreshToken);
+        return new Login_Response_DTO(user.getId(), user.getRole().toString(), accessToken,refreshToken);
     }
 }
 
