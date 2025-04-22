@@ -3,6 +3,7 @@ package SpringBoot.College_Management.Assigns.Controllers;
 import SpringBoot.College_Management.Assigns.Services.Assigning_Services;
 import SpringBoot.College_Management.Courses.Course_DTO;
 import SpringBoot.College_Management.Departments.Department_DTO;
+//import SpringBoot.College_Management.Semesters.Semester_Service;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +21,19 @@ public class Assigning_Controllers {
 
     //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
 
-//    private final Semester_Service semesterService;
-
-//    @PutMapping(path = "/courses/{courseName}/{semester}/{subjectName}")
+//    @PutMapping(path = "/courses/{courseName}/{subjectName}")
 //    public ResponseEntity<Course_DTO> assignSubjectsToSemester(@PathVariable String courseName,
-//                                                               @PathVariable String semester,
-//                                                               @PathVariable String subjectName){
-//        return ResponseEntity.ok(assigningServices.assignSubjectsToSemester(courseName,semester,subjectName));
+//                                                               @PathVariable String semester){
+//        return ResponseEntity.ok(assigningServices.assignSubjectsToSemester(courseName,semester));
 //    }
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    @PutMapping(path = "/courses/{courseName}/year/{year}/student/{studentId}")
+    @PutMapping(path = "/courses/{courseName}/student/{studentId}/{studentName}")
     public ResponseEntity<Course_DTO> assignCourseToStudents(@PathVariable String courseName,
-                                                             @PathVariable Long year,
-                                                             @PathVariable Long studentId){
-        return ResponseEntity.ok(assigningServices.assignCourseToStudents(courseName,year,studentId));
+                                                             @PathVariable String studentId,
+                                                             @PathVariable String studentName){
+        return ResponseEntity.ok(assigningServices.assignCourseToStudents(courseName,studentId,studentName));
     }
 
     // ASSIGNING SEMESTER TO COURSES_________________________________________________________________________________________________________________________
@@ -58,12 +56,12 @@ public class Assigning_Controllers {
 
     @PutMapping("/subjects/{subjectName}/professorId/{professorId}/name/{professorName}")
     public Subject_DTO assignProfessorsToSubjects(@PathVariable String subjectName,
-                                                  @PathVariable Long professorId,
+                                                  @PathVariable String professorId,
                                                   @PathVariable String professorName){
         return assigningServices.assignProfessorsToSubjects(subjectName,professorId,professorName);
     }
 
-    //ASSIGNING SUBJECTS TO COURSES ____________________________________________________________________________________________________________________________________
+    //ASSIGNING SUBJECTS TO SEMESTER ____________________________________________________________________________________________________________________________________
 
     @PutMapping(path = "courses/{courseName}/subjects/{subjectName}")
     public Course_DTO assignSubjectsToCourses(@PathVariable String courseName,
@@ -73,30 +71,20 @@ public class Assigning_Controllers {
 
     //ASSIGNING HOD TO DEPARTMENT ____________________________________________________________________________________________________________________________________
 
-//    @PutMapping(path = "departments/{department}/hodId/{HodId}/HOD/{HOD}")
-//    public Department_DTO Hod (@PathVariable String department,
-//                               @PathVariable Long HodId,
-//                               @PathVariable String HOD){
-//
-//        return assigningServices.Hod(department,HodId,HOD);
-//    }
-//
-//    @PutMapping(path = "departments/{department}/deanId/{deanId}/Dean/{dean}")
-//    public Department_DTO Dean (@PathVariable String department,
-//                               @PathVariable Long deanId,
-//                               @PathVariable String dean){
-//
-//        return assigningServices.Dean(department,deanId,dean);
-//    }
+    @PutMapping(path = "/departments/{department}/hodId/{HodId}/HOD/{HOD}")
+    public Department_DTO Hod (@PathVariable String department,
+                               @PathVariable String HodId,
+                               @PathVariable String HOD){
 
-    @PutMapping(path = "/{department}/HOD/{HodId}/{HOD}/Dean/{deanId}/{dean}")
-    public Department_DTO Hod(@PathVariable String department,
-                              @PathVariable Long HodId,
-                              @PathVariable String HOD,
-                              @PathVariable Long deanId,
-                              @PathVariable String dean) {
+        return assigningServices.Hod(department,HodId,HOD);
+    }
 
-        return assigningServices.Hod(department, HodId, HOD,deanId,dean);
+    @PutMapping(path = "departments/{department}/deanId/{deanId}/Dean/{dean}")
+    public Department_DTO Dean (@PathVariable String department,
+                               @PathVariable String deanId,
+                               @PathVariable String dean){
+
+        return assigningServices.Dean(department,deanId,dean);
     }
 
 

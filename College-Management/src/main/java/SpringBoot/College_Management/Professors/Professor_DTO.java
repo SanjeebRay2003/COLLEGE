@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Data
 public class Professor_DTO {
-    private Long professor_Id;
+    private String professorId;
 
     @NotBlank(message = "Name should not be blank")
     @Size(min = 3,max = 20,message = "Enter Name in valid range")
@@ -30,6 +30,8 @@ public class Professor_DTO {
     private Boolean isActive;
 
     private Set<Subject_Entity> subjects;
+    private String secretCode;
+
 }
 
 

@@ -25,6 +25,11 @@ public class Department_Service {
 
     public Department_DTO addNewDepartment(Department_DTO department) {
         Department_Entity departmentEntity = modelMapper.map(department,Department_Entity.class);
+
+        long count = departmentRepository.count() + 1;
+        String customId = "DEP_" + String.format("%d", count);
+        departmentEntity.setDepartment_Id(customId);
+
         if (departmentRepository.existsByDepartment(departmentEntity.getDepartment())) {
             throw new RuntimeException("Department with "+departmentEntity.getDepartment()+" name is already exists");
         }

@@ -6,6 +6,7 @@ import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class Course_Controller {
     private final Course_Service courseService;
 
     @GetMapping("/{courseName}")
+//    @Secured("ROLE_USER")
     public ResponseEntity<Course_DTO> getCourseByName(@PathVariable String courseName){
         Optional<Course_DTO> departmentDto = courseService.getCourseByName(courseName);
         return departmentDto
@@ -27,16 +29,19 @@ public class Course_Controller {
     }
 
     @GetMapping
+//    @Secured("ROLE_USER")
     public ResponseEntity<List<Course_DTO>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
     @PostMapping(path = "/ADD")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Course_DTO> addNewCourse(@RequestBody Course_DTO courseDto){
         return new ResponseEntity<>(courseService.addNewCourse(courseDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/delete/{courseName}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Boolean> deleteCourseById(@PathVariable String courseName) {
         boolean deleted = courseService.deleteCourseById(courseName);
         // Response

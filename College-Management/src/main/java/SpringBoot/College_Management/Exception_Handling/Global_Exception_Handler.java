@@ -4,6 +4,7 @@ import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +35,17 @@ public class Global_Exception_Handler {
         return buildErrorResponse(apiError);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Api_Response<?>> handleAccessDeniedException(AccessDeniedException exception){
+        Api_Error apiError = Api_Error.builder()
+                .status(HttpStatus.FORBIDDEN)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponse(apiError);
+    }
+
+
+
 
     // It handles all the validation error
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -52,6 +64,8 @@ public class Global_Exception_Handler {
                 .error(errors)
                 .build();
         return buildErrorResponse(apiError);
+
+
     }
 
     private ResponseEntity<Api_Response<?>> buildErrorResponse(Api_Error apiError) {

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,6 +19,7 @@ import static SpringBoot.College_Management.Security_Section.Enums.Roles.ADMIN;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(securedEnabled = true)
 public class Web_Security_Configuration {
 
     private final Jwt_Authentication_Filter jwtAuthenticationFilter;
@@ -28,17 +30,17 @@ public class Web_Security_Configuration {
 
         httpSecurity.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/error", "/authentication/**", "/home.html").permitAll()
-                                .requestMatchers("/assign/**").hasRole(ADMIN.name())
-                                .requestMatchers(HttpMethod.GET, "/students/**", "/authentication/**", "/professors/**",
-                                        "/departments/**", "/courses/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/students/**", "/authentication/**", "/professors/**",
-                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
-                                .requestMatchers(HttpMethod.PUT, "/students/**", "/authentication/**", "/professors/**",
-                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
-                                .requestMatchers(HttpMethod.PATCH, "/students/**", "/authentication/**", "/professors/**",
-                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/students/**", "/authentication/**", "/professors/**",
-                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
+//                                .requestMatchers("/assign/**").hasRole(ADMIN.name())
+//                                .requestMatchers(HttpMethod.GET, "/students/**", "/authentication/**", "/professors/**",
+//                                        "/departments/**", "/courses/**").permitAll()
+//                                .requestMatchers(HttpMethod.POST, "/students/**", "/authentication/**", "/professors/**",
+//                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
+//                                .requestMatchers(HttpMethod.PUT, "/students/**", "/authentication/**", "/professors/**",
+//                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
+//                                .requestMatchers(HttpMethod.PATCH, "/students/**", "/authentication/**", "/professors/**",
+//                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
+//                                .requestMatchers(HttpMethod.DELETE, "/students/**", "/authentication/**", "/professors/**",
+//                                        "/departments/**", "/courses/**").hasRole(ADMIN.name())
 
 //
                                 .anyRequest().authenticated())

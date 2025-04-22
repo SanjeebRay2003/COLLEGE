@@ -12,13 +12,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/authentication")
@@ -48,6 +47,15 @@ public class Authentication_Controller {
 
         return ResponseEntity.ok(loginResponseDto);
     }
+
+//    @PatchMapping(path = "/signUp/{userId}")
+////    @Secured("ROLE_USER")
+//    public ResponseEntity<User_DTO> updateUser(@PathVariable Long userId,
+//                                               @RequestBody Map<String, Object> updates){
+//        User_DTO update = userService.updateUser(userId,updates);
+//        if (update == null) return ResponseEntity.notFound().build();
+//        return ResponseEntity.ok(update);
+//    }
 
     @PostMapping(path = "/refresh") // we got the refresh token from the cookies
     public ResponseEntity<Login_Response_DTO> refresh(HttpServletRequest request){

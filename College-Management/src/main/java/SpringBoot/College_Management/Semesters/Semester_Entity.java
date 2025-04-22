@@ -30,7 +30,7 @@
 //    private Set<Course_Entity> courses;
 //
 //    // Semester and subject mapping
-//    @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "semester", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 //    @JsonIgnore
 //    private Set<Subject_Entity> subjects;
 //

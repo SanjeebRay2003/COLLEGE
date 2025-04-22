@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Security_Section;
 
 import SpringBoot.College_Management.Security_Section.Enums.Roles;
+import SpringBoot.College_Management.Security_Section.Utils.Permission_Mapping;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,9 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -23,7 +23,7 @@ public class User_Entity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Long studentId;
     @Column(unique = true)
     private String email;
     private String password;
@@ -33,11 +33,29 @@ public class User_Entity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Roles> role;
 
+    private String secret_code;
+
+//    private Long studentId;
+//
+//
+//    private Long professorId;
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.stream()
-                .map(roles -> new SimpleGrantedAuthority("ROLE_"+roles.name()))
-                .collect(Collectors.toSet());
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        role.forEach(
+                roles2 -> {
+                    Set<SimpleGrantedAuthority> permissions = Permission_Mapping.getAuthoritiesForRole(roles2);
+                    authorities.addAll(permissions);
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + roles2.name()));
+                }
+        );
+
+        return authorities;
     }
 
     @Override

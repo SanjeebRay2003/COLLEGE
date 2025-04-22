@@ -1,6 +1,8 @@
 package SpringBoot.College_Management.Courses;
 
+import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Departments.Department_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
@@ -17,7 +19,7 @@ import java.util.Set;
 @Data
 public class Course_DTO {
 
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Enter course name")
     @Size(min = 3,message = "Enter course name in valid range")
@@ -32,7 +34,7 @@ public class Course_DTO {
 
     private Set<Subject_Entity> subjects;
 
-//    private Set<Semester_Entity> semesters;
+    private Set<Semester_Enum> semesters;
 
 
 }

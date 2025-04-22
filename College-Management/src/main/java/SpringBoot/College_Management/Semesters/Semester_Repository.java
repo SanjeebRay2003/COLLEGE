@@ -10,5 +10,5 @@
 //public interface Semester_Repository extends JpaRepository<Semester_Entity,Long> {
 //    boolean existsBySemester(String semester);
 //    Optional<Semester_Entity> findBySemester(String semester);
-//    Set<Semester_Entity> findAllBySemester (Set<Semester_Entity> semester);
+////    Set<Semester_Entity> findAllBySemester (Set<Semester_Entity> semester);
 //}

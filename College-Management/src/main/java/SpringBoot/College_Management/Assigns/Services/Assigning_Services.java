@@ -18,17 +18,19 @@ import SpringBoot.College_Management.Professors.Professor_Repository;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
 //import SpringBoot.College_Management.Semesters.Semester_Repository;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Repository;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
 import SpringBoot.College_Management.Subjects.Subject_Entity;
 import SpringBoot.College_Management.Subjects.Subject_Repository;
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -64,13 +66,13 @@ public class Assigning_Services {
 
     // ASSIGNING STUDENTS TO COURSES_________________________________________________________________________________________________________________________
 
-    public Course_DTO assignCourseToStudents(String courseName,Long year, Long studentId) {
+    public Course_DTO assignCourseToStudents(String courseName,String studentId,String studentName) {
 
         Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
-        Optional<Student_Entity> studentEntity = studentRepository.findById(studentId);
+        Optional<Student_Entity> studentEntity = studentRepository.findByStudentIdAndName(studentId,studentName);
 
         if (courseRepository.existsByStudents(studentEntity.get())) {
-            throw new RuntimeException("Student with id " + studentId + " already exists");
+            throw new RuntimeException("Student with id " + studentId + " and name "+studentName +"already exists");
         }
 
         return courseEntity.flatMap(course -> studentEntity.map(
@@ -91,6 +93,7 @@ public class Assigning_Services {
 //
 //        Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
 //        Optional<Semester_Entity> semesterEntity = semesterRepository.findBySemester(semester);
+//
 //
 //        return courseEntity.flatMap(course -> semesterEntity.map(
 //                semesters -> {
@@ -129,7 +132,7 @@ public class Assigning_Services {
 
     //ASSIGNING PROFESSORS TO SUBJECTS ____________________________________________________________________________________________________________________________________
 
-    public Subject_DTO assignProfessorsToSubjects(String subjectName, Long professorId, String professorName) {
+    public Subject_DTO assignProfessorsToSubjects(String subjectName, String professorId, String professorName) {
         Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(professorId, professorName);
         Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
 
@@ -148,9 +151,12 @@ public class Assigning_Services {
 
     //ASSIGNING SUBJECTS TO COURSES ____________________________________________________________________________________________________________________________________
 
+
     public Course_DTO assignSubjectsToCourses(String courseName, String subjectName) {
         Optional<Course_Entity> courseEntity = courseRepository.findByCourse(courseName);
         Optional<Subject_Entity> subjectEntity = subjectRepository.findBySubject(subjectName);
+
+
 
         return courseEntity.flatMap(course -> subjectEntity.map(
                 subject -> {
@@ -163,7 +169,7 @@ public class Assigning_Services {
         )).orElse(null);
     }
 
-    public Department_DTO Hod(String department,Long HodId, String HOD) {
+    public Department_DTO Hod(String department,String HodId, String HOD) {
 
         Optional<Department_Entity>  departmentEntity = departmentRepository.findByDepartment(department);
         Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(HodId,HOD);
@@ -178,14 +184,14 @@ public class Assigning_Services {
         )).orElse(null);
     }
 
-    public Department_DTO Dean(String department, Long deanId, String dean) {
+    public Department_DTO Dean(String department, String deanId, String dean) {
 
         Optional<Department_Entity>  departmentEntity = departmentRepository.findByDepartment(department);
         Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(deanId,dean);
 
         return departmentEntity.flatMap(departments -> professorEntity.map(
                 professor -> {
-                    departments.setHOD(professor);
+                    departments.setDean(professor);
                     departmentRepository.save(departments);
 
                     return modelMapper.map(departments,Department_DTO.class);

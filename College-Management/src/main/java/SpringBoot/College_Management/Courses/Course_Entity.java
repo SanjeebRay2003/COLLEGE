@@ -1,8 +1,7 @@
 package SpringBoot.College_Management.Courses;
 
+import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Departments.Department_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Subjects.Subject_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,7 +27,7 @@ import java.util.Set;
 public class Course_Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(unique = true,nullable = false)
     private String course;
@@ -47,17 +45,21 @@ public class Course_Entity {
     private Integer years;
 
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = false,fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<Subject_Entity> subjects;
-
-    // course and semester mapping
+    //     course and semester mapping
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "Semesters_Of_Courses",
 //            joinColumns = @JoinColumn(name = "Course_Id"),
 //            inverseJoinColumns = @JoinColumn(name = "Semester_Id"))
 //    @JsonIgnore
-//    private Set<Semester_Entity> semesters;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Semester_Enum> semesters;
+
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Subject_Entity> subjects;
+
 
 
     @Override

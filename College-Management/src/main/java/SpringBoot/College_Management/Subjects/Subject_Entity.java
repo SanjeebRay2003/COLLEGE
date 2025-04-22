@@ -1,7 +1,9 @@
 package SpringBoot.College_Management.Subjects;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
+import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Professors.Professor_Entity;
+//import SpringBoot.College_Management.Semesters.Semester_Entity;
 //import SpringBoot.College_Management.Semesters.Semester_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -26,8 +28,8 @@ import java.util.Set;
 public class Subject_Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Subject_Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String Subject_Id;
 
 
     @Column(unique = true,nullable = false)
@@ -44,9 +46,10 @@ public class Subject_Entity {
     private Course_Entity course;
 
     // subject and semester mapping
-//    @ManyToOne
+//    @ManyToMany(mappedBy = "subjects",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 //    @JsonIgnore
 //    private Semester_Entity semester;
+
 
     @Override
     public boolean equals(Object o) {

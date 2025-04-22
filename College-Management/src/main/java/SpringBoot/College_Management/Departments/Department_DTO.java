@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 public class Department_DTO {
 
-    private Long department_Id;
+    private String department_Id;
 
     @NotBlank(message = "Department should not be blank")
     @Size(min = 3,message = "Enter department name in valid range")

@@ -25,8 +25,8 @@ import java.util.Set;
 public class Professor_Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long professorId;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String professorId;
     private String name;
 //    @Column(unique = true,nullable = false)
     private String email;
@@ -34,6 +34,7 @@ public class Professor_Entity {
     private String contactNo;
     private LocalDate dateOfJoining;
     private Boolean isActive;
+    private String secretCode;
 
     // professor and subject mapping
     @ManyToMany(cascade = CascadeType.ALL)

@@ -1,13 +1,18 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
+import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Departments.Department_Entity;
+import SpringBoot.College_Management.Security_Section.Enums.Roles;
+import SpringBoot.College_Management.Security_Section.User_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,8 +27,8 @@ import java.util.Objects;
 )
 public class Student_Entity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String studentId;
     @Column(unique = true,nullable = false)
     private String rollNo;
     private String name;
@@ -32,13 +37,18 @@ public class Student_Entity {
     private String email;
     private String contactNo;
     private LocalDate dateOfAdmission;
-
-
     //student and course mapping
     @ManyToOne
     @JoinColumn(name = "course")
     @JsonIgnore
     private Course_Entity course;
+
+    private String secretCode;
+
+//    @OneToOne
+//    private User_Entity owner;
+
+
 
 
     @Override

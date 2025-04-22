@@ -2,6 +2,10 @@ package SpringBoot.College_Management.Subjects;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Professors.Professor_Repository;
+//import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
+import SpringBoot.College_Management.Students.Student_DTO;
+import SpringBoot.College_Management.Students.Student_Entity;
+import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,8 +20,10 @@ import java.util.stream.Collectors;
 public class Subject_Service {
 
     private final Subject_Repository subjectRepository;
-    private final Professor_Repository professorRepository;
+//    private final Professor_Repository professorRepository;
     private final ModelMapper modelMapper;
+//    private final Student_Repository studentRepository;
+//    private final Owner_Of_Entity ownerOfEntity;
 
     public void isExistByID(String subjectName) {
         boolean isExist = subjectRepository.existsBySubject(subjectName);// checks the id is present or not
@@ -40,6 +46,11 @@ public class Subject_Service {
 
     public Subject_DTO addNewSubject(Subject_DTO subjectDto) {
         Subject_Entity subjects = modelMapper.map(subjectDto, Subject_Entity.class);
+
+        long count = subjectRepository.count() + 1;
+        String customId = "SUB_" + String.format("%d", count);
+        subjects.setSubject_Id(customId);
+
         if (subjectRepository.existsBySubject(subjects.getSubject())) {
             throw new RuntimeException(subjects.getSubject()+" subject is already exist");
         }

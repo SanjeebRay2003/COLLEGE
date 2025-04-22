@@ -1,10 +1,12 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Students.Student_DTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,8 @@ public class Professor_Controller {
     private final Professor_Service professorService;
 
     @GetMapping(path = "/id/{professorId}/name/{professorName}")
-    public ResponseEntity<Professor_DTO> getProfessorByName(@PathVariable Long professorId,
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<Professor_DTO> getProfessorByName(@PathVariable String professorId,
                                                             @PathVariable String professorName) {
         Optional<Professor_DTO> professor = professorService.getProfessorByName(professorId, professorName);
         return professor
@@ -29,18 +32,21 @@ public class Professor_Controller {
 
 
     @GetMapping
-    public ResponseEntity<List<Professor_DTO>> getAllProfessors() {
-        return ResponseEntity.ok(professorService.getAllProfessors());
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<List<Professor_DTO>> getAllProfessors(@RequestParam(defaultValue = "professorId") String sortBy) {
+        return ResponseEntity.ok(professorService.getAllProfessors(sortBy));
     }
 
     @PostMapping(path = "/ADD")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Professor_DTO> addNewProfessor(@RequestBody @Valid Professor_DTO professorDto) {
         Professor_DTO newProfessor = professorService.addNewProfessor(professorDto);
         return new ResponseEntity<>(newProfessor, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/Update/id/{professorId}/name/{professorName}")
-    public ResponseEntity<Professor_DTO> updateProfessor(@PathVariable Long professorId,
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Professor_DTO> updateProfessor(@PathVariable String professorId,
                                                          @PathVariable String professorName,
                                                          @RequestBody @Valid Professor_DTO professorDto) {
         professorService.isExistByIdAndName(professorId,professorName);
@@ -48,7 +54,8 @@ public class Professor_Controller {
     }
 
     @DeleteMapping(path = "/delete/id/{professorId}/name/{professorName}")
-    public ResponseEntity<Boolean> deleteProfessorByName(@PathVariable Long professorId,
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Boolean> deleteProfessorByName(@PathVariable String professorId,
                                                          @PathVariable String professorName) {
         boolean deleted = professorService.deleteProfessorByName(professorId,professorName);
         // Response
@@ -59,7 +66,8 @@ public class Professor_Controller {
     }
 
     @PatchMapping(path = "/update/id/{professorId}/name/{professorName}")
-    public ResponseEntity<Professor_DTO> partialUpdateProfessorByName(@PathVariable Long professorId,
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Professor_DTO> partialUpdateProfessorByName(@PathVariable String professorId,
                                                                       @PathVariable String professorName,
                                                                       @RequestBody Map<String, Object> updates) {
         Professor_DTO update = professorService.partialUpdateProfessorByName(professorId,professorName, updates);

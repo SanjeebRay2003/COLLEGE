@@ -25,6 +25,11 @@ public class Course_Service {
 
     public Course_DTO addNewCourse(Course_DTO courseDto) {
         Course_Entity course = modelMapper.map(courseDto,Course_Entity.class);
+
+        long count = courseRepository.count() + 1;
+        String customId = "DEP_" + String.format("%d", count);
+        course.setId(customId);
+
         if (courseRepository.existsByCourse(course.getCourse())) {
             throw new RuntimeException("Course with "+course.getCourse()+" name is already exists");
         }
