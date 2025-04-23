@@ -1,18 +1,12 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
-import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
-import SpringBoot.College_Management.Departments.Department_Entity;
-import SpringBoot.College_Management.Security_Section.Enums.Roles;
-import SpringBoot.College_Management.Security_Section.User_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data

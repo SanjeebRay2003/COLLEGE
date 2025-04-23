@@ -49,7 +49,7 @@ public class Subject_Service {
 
         long count = subjectRepository.count() + 1;
         String customId = "SUB_" + String.format("%d", count);
-        subjects.setSubject_Id(customId);
+        subjects.setSubjectId(customId);
 
         if (subjectRepository.existsBySubject(subjects.getSubject())) {
             throw new RuntimeException(subjects.getSubject()+" subject is already exist");

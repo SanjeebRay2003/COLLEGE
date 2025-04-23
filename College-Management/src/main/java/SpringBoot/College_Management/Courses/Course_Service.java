@@ -28,7 +28,7 @@ public class Course_Service {
 
         long count = courseRepository.count() + 1;
         String customId = "DEP_" + String.format("%d", count);
-        course.setId(customId);
+        course.setCourseId(customId);
 
         if (courseRepository.existsByCourse(course.getCourse())) {
             throw new RuntimeException("Course with "+course.getCourse()+" name is already exists");

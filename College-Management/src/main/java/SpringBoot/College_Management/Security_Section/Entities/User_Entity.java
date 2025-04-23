@@ -1,4 +1,4 @@
-package SpringBoot.College_Management.Security_Section;
+package SpringBoot.College_Management.Security_Section.Entities;
 
 import SpringBoot.College_Management.Security_Section.Enums.Roles;
 import SpringBoot.College_Management.Security_Section.Utils.Permission_Mapping;
@@ -21,9 +21,9 @@ import java.util.Set;
 public class User_Entity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long studentId;
+    private String userId;
+    private String studentId;
+    private String professorId;
     @Column(unique = true)
     private String email;
     private String password;
@@ -33,13 +33,7 @@ public class User_Entity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Roles> role;
 
-    private String secret_code;
-
-//    private Long studentId;
-//
-//
-//    private Long professorId;
-
+    private String secretCode;
 
 
 

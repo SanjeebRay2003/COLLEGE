@@ -25,8 +25,7 @@ import java.util.Set;
 public class Department_Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String department_Id;
+    private String departmentId;
 
     @Column(unique = true,nullable = false)
     private String department;
@@ -47,11 +46,11 @@ public class Department_Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Department_Entity that = (Department_Entity) o;
-        return Objects.equals(department_Id, that.department_Id) && Objects.equals(department, that.department) && Objects.equals(course, that.course);
+        return Objects.equals(departmentId, that.departmentId) && Objects.equals(department, that.department) && Objects.equals(course, that.course);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(department_Id, department, course);
+        return Objects.hash(departmentId, department, course);
     }
 }

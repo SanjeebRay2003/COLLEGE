@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("subjects")
+@RequestMapping("/subjects")
 @RequiredArgsConstructor
 public class Subject_Controller {
 

@@ -23,13 +23,13 @@ public class student_controller {
     private final student_service studentService;
 
     @GetMapping
-    @Secured("ROLE_USER")
+//    @Secured({"ROLE_USER","ROLE_STUDENT","ROLE_ADMIN"})
     public ResponseEntity<List<Student>> getAllStudents(){
         return ResponseEntity.ok(studentService.allStudents());
     }
 
     @GetMapping(path = "/id/{studentId}/name/{studentName}")
-    @Secured("ROLE_USER")
+//    @Secured({"ROLE_USER","ROLE_STUDENT","ROLE_ADMIN"})
     public ResponseEntity<Student> getStudentByName(@PathVariable String studentId,
                                                         @PathVariable String studentName) {
         Optional<Student> student = studentService.getStudentByIdAndName(studentId, studentName);

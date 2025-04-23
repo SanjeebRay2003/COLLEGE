@@ -15,6 +15,8 @@ public class Permission_Mapping {
 
     private static final Map<Roles, Set<Permissions>> map = Map.of(
             STUDENT, Set.of(USER_VIEW, STUDENT_VIEW, PROFESSOR_VIEW, DEPARTMENT_VIEW, COURSE_VIEW, SUBJECT_VIEW),
+            PROFESSOR, Set.of(USER_VIEW, STUDENT_VIEW, PROFESSOR_VIEW, DEPARTMENT_VIEW, COURSE_VIEW, SUBJECT_VIEW),
+//            USER, Set.of(USER_VIEW, STUDENT_VIEW, PROFESSOR_VIEW, DEPARTMENT_VIEW, COURSE_VIEW, SUBJECT_VIEW),
             ADMIN, Set.of(USER_VIEW,
                     USER_CREATE,
                     USER_UPDATE,

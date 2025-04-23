@@ -16,10 +16,12 @@ public interface Professor_Repository extends JpaRepository<Professor_Entity,Str
     void deleteByProfessorIdAndName(String id,String professor);
     Optional<Professor_Entity> findByProfessorIdAndName(String id,String name);
 
-    Professor_Entity findByEmail(String email);
+    Optional<Professor_Entity> findByEmail(String email);
     List<Professor_Entity> findBy(Sort sort);
 
     boolean existsBySecretCode(String secretCode);
 
     boolean existsByProfessorId(String professorId);
+
+    Optional<Professor_Entity> findByProfessorId(String professorId);
 }

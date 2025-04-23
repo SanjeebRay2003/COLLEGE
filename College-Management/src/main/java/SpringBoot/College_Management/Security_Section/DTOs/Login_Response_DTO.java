@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Login_Response_DTO {
 
-    private Long userId;
+    private String userId;
     private String role;
     private String accessToken;
     private String refreshToken;

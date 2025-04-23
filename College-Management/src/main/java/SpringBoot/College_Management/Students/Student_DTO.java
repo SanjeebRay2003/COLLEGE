@@ -1,10 +1,7 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
-import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Custom_Validation.Semester.Validate_Semester;
-import SpringBoot.College_Management.Departments.Department_Entity;
-import SpringBoot.College_Management.Security_Section.User_Entity;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

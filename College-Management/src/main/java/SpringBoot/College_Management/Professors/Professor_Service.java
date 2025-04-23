@@ -1,7 +1,8 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Subjects.Subject_Repository;
+import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.User_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
@@ -10,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.util.ReflectionUtils.findRequiredField;
@@ -24,7 +22,7 @@ public class Professor_Service {
 
     private final Professor_Repository professorRepository;
     private final ModelMapper modelMapper;
-    private final Subject_Repository subjectRepository;
+    private final User_Repository userRepository;
 
     public void isExistByIdAndName(String professorId,String professorName) {
         boolean isExistById = professorRepository.existsByProfessorId(professorId);// checks the id is present or not
@@ -35,8 +33,13 @@ public class Professor_Service {
             throw new ResourceNotFound("Professor Not Found with name : " + professorName);
     }
 
-    public Optional<Professor_DTO> getProfessorByName(String professorId,String professorName) {
-        return professorRepository.findByProfessorIdAndName(professorId, professorName).map(professorEntity -> modelMapper.map(professorEntity, Professor_DTO.class));
+    public Optional<Professor_DTO> getProfessorByIdAndName(String professorId, String professorName) {
+        Optional<User_Entity> userEntity = userRepository.findByStudentId(professorId);
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorId(professorId);
+        if (Objects.equals(userEntity.get().getProfessorId(), professorEntity.get().getProfessorId())) {
+            return professorRepository.findByProfessorIdAndName(professorId, professorName).map(professorEntity1 -> modelMapper.map(professorEntity, Professor_DTO.class));
+        }
+        return null;
     }
 
 

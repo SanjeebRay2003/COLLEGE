@@ -2,24 +2,17 @@ package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 //import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
-import SpringBoot.College_Management.Professors.Professor_Entity;
-import SpringBoot.College_Management.Security_Section.User_Entity;
-import SpringBoot.College_Management.Students.Student_Details.Student;
+import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.User_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.util.ReflectionUtils.findRequiredField;
@@ -29,11 +22,12 @@ import static org.springframework.data.util.ReflectionUtils.findRequiredField;
 public class Student_Service {
     private final Student_Repository studentRepository;
     private final ModelMapper modelMapper;
+    private final User_Repository userRepository;
 
 
     // It Checks Id is present or not
     public void isExistByIdAndName(String studentId,String studentName) {
-        boolean isExistById = studentRepository.findByStudentId(studentId);// checks the id is present or not
+        boolean isExistById = studentRepository.existsByStudentId(studentId);// checks the id is present or not
         if (!isExistById)
             throw new ResourceNotFound("Student Not Found with id : " + studentId);
         boolean isExistByName = studentRepository.existsByName(studentName);
@@ -42,7 +36,12 @@ public class Student_Service {
     }
 
     public Optional<Student_DTO> getStudentByIdAndName(String studentId,String studentName) {
-        return studentRepository.findByStudentIdAndName(studentId,studentName).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
+        Optional<User_Entity> userEntity = userRepository.findByStudentId(studentId);
+        Optional<Student_Entity> studentEntity = studentRepository.findByStudentId(studentId);
+        if (Objects.equals(userEntity.get().getStudentId(),studentEntity.get().getStudentId())) {
+            return studentRepository.findByStudentIdAndName(studentId, studentName).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
+        }
+        return null;
     }
 
     public List<Student_DTO> getAllStudents(String sortBy) {
@@ -113,7 +112,7 @@ public class Student_Service {
     }
 
     public Student_DTO getStudentByEmail(String email) {
-        Student_Entity student =  studentRepository.findByEmail(email);
+       Optional<Student_Entity> student =  studentRepository.findByEmail(email);
         return modelMapper.map(student,Student_DTO.class);
     }
 

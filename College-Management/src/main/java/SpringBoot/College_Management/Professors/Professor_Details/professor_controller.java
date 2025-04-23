@@ -21,13 +21,13 @@ public class professor_controller {
     private final professor_service professor_service;
 
     @GetMapping
-    @Secured({"ROLE_PROFESSOR","ROLE_STUDENT"})
+//    @Secured({"ROLE_PROFESSOR","ROLE_STUDENT"})
     public ResponseEntity<List<Professor>> allProfessors(){
         return ResponseEntity.ok(professor_service.allProfessors());
     }
 
     @GetMapping(path = "/id/{professorId}/name/{professorName}")
-    @Secured({"ROLE_PROFESSOR","ROLE_STUDENT"})
+//    @Secured({"ROLE_PROFESSOR","ROLE_STUDENT"})
     public ResponseEntity<Professor> getProfessorByIdAndName(@PathVariable String professorId,
                                                              @PathVariable String professorName)  {
         Optional<Professor> professor = professor_service.getProfessorByIdAndName(professorId, professorName);

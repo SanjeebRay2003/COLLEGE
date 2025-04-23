@@ -3,7 +3,7 @@ package SpringBoot.College_Management.Security_Section;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.SignUp_DTO;
-import SpringBoot.College_Management.Security_Section.DTOs.User_DTO;
+import SpringBoot.College_Management.Security_Section.DTOs.User_Student_DTO;
 import SpringBoot.College_Management.Security_Section.Services.Authentication_Service;
 import SpringBoot.College_Management.Security_Section.Services.User_Service;
 import jakarta.servlet.http.Cookie;
@@ -12,12 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/authentication")
@@ -31,8 +29,8 @@ public class Authentication_Controller {
     private  String deployEnv;
 
     @PostMapping(path = "/signUp")
-    public ResponseEntity<User_DTO> signUp (@RequestBody SignUp_DTO sign_Up){
-        User_DTO userDto =  userService.signUp(sign_Up);
+    public ResponseEntity<User_Student_DTO> signUp (@RequestBody SignUp_DTO sign_Up){
+        User_Student_DTO userDto =  userService.signUp(sign_Up);
         return ResponseEntity.ok(userDto);
     }
 

@@ -23,7 +23,7 @@ public class Student_Controller {
     private final Subject_Service subjectService;
 
     @GetMapping(path = "/id/{studentId}/name/{studentName}")
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN","ROLE_STUDENT","ROLE_PROFESSOR"})
     public ResponseEntity<Student_DTO> getStudentByIdAndName(@PathVariable String studentId,
                                                         @PathVariable String studentName) {
         Optional<Student_DTO> student = studentService.getStudentByIdAndName(studentId, studentName);
@@ -32,13 +32,13 @@ public class Student_Controller {
                 .orElseThrow(() -> new ResourceNotFound("Student not found with id " + studentId + " , name " + studentName));
     }
 
-    @GetMapping("/email/{email}")
-    @PreAuthorize("@student_Service.getStudentByEmail(#email)")
-//    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Student_DTO> getStudentByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(studentService.getStudentByEmail(email));
-
-    }
+//    @GetMapping("/email/{email}")
+//    @PreAuthorize("@student_Service.getStudentByEmail(#email)")
+////    @Secured("ROLE_ADMIN")
+//    public ResponseEntity<Student_DTO> getStudentByEmail(@PathVariable String email) {
+//        return ResponseEntity.ok(studentService.getStudentByEmail(email));
+//
+//    }
 
 //    @GetMapping(path = "/{id}") // only for checking the owner of the entity
 //    public ResponseEntity<Student_DTO> getStudentById(@PathVariable Long studentId){
@@ -47,7 +47,7 @@ public class Student_Controller {
 //    }
 
     @GetMapping // also get the sorted students
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN","ROLE_PROFESSOR"})
     public ResponseEntity<List<Student_DTO>> getAllStudents(@RequestParam(defaultValue = "studentId") String sortBy) {
         return ResponseEntity.ok(studentService.getAllStudents(sortBy));
     }

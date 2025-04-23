@@ -16,7 +16,7 @@ public interface Student_Repository extends JpaRepository<Student_Entity,String>
     void deleteByStudentIdAndName(String id,String name);
     Optional<Student_Entity> findByStudentIdAndName(String id,String name);
 
-    Student_Entity findByEmail(String email);
+   Optional<Student_Entity> findByEmail(String email);
     List<Student_Entity> findBy(Sort sort);
 
     // Using BETWEEN
@@ -25,7 +25,9 @@ public interface Student_Repository extends JpaRepository<Student_Entity,String>
     // Using greater than or equal and less than or equal
     List<Student_Entity> findByDateOfAdmissionGreaterThanEqualAndDateOfAdmissionLessThanEqual(LocalDate start, LocalDate end);
 
-    boolean findByStudentId(String studentId);
+    Optional<Student_Entity> findByStudentId(String studentId);
 
     boolean existsBySecretCode(String secretCode);
+
+    boolean existsByStudentId(String studentId);
 }

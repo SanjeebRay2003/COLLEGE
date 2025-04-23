@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface Department_Repository  extends JpaRepository<Department_Entity,Long> {
+public interface Department_Repository  extends JpaRepository<Department_Entity,String> {
     boolean existsByDepartment(String department);
     boolean existsByCourse(Course_Entity courseName);
     void deleteByDepartment(String department);

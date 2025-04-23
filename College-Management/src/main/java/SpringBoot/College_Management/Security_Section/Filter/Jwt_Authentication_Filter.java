@@ -2,7 +2,7 @@ package SpringBoot.College_Management.Security_Section.Filter;
 
 import SpringBoot.College_Management.Security_Section.Services.Jwt_Service;
 import SpringBoot.College_Management.Security_Section.Services.User_Service;
-import SpringBoot.College_Management.Security_Section.User_Entity;
+import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +41,7 @@ public class Jwt_Authentication_Filter extends OncePerRequestFilter {
 
             String token = requestTokenHeader.split("Bearer ")[1];
 
-            Long userId = jwtService.getUserIdFromToken(token);
+            String userId = jwtService.getUserIdFromToken(token);
 
             if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User_Entity user = userService.getUserById(userId);

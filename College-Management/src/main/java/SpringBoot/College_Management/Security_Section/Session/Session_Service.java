@@ -1,6 +1,6 @@
 package SpringBoot.College_Management.Security_Section.Session;
 
-import SpringBoot.College_Management.Security_Section.User_Entity;
+import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Session_Service {
     private final Session_Repository sessionRepository;
-    private final int SESSION_LIMIT = 2;
+    private final int SESSION_LIMIT = 1;
 
     public void generateNewSession(User_Entity user, String refreshToken) {
         List<Session_Entity> userSession = sessionRepository.findByUser(user);

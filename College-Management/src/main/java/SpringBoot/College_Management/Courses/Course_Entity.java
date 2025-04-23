@@ -26,8 +26,7 @@ import java.util.Set;
 )
 public class Course_Entity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private String courseId;
 
     @Column(unique = true,nullable = false)
     private String course;
@@ -67,11 +66,11 @@ public class Course_Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course_Entity course = (Course_Entity) o;
-        return Objects.equals(id, course.id) && Objects.equals(this.course, course.course);
+        return Objects.equals(courseId, course.courseId) && Objects.equals(this.course, course.course);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, course);
+        return Objects.hash(courseId, course);
     }
 }

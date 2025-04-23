@@ -1,12 +1,10 @@
 package SpringBoot.College_Management.Security_Section.Services;
 
-import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
 import SpringBoot.College_Management.Security_Section.Session.Session_Service;
-import SpringBoot.College_Management.Security_Section.User_Entity;
+import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
 import SpringBoot.College_Management.Security_Section.User_Repository;
-import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,18 +33,18 @@ public class Authentication_Service {
         String accessToken =  jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         sessionService.generateNewSession(user,refreshToken);
-        return new Login_Response_DTO(user.getId(), user.getRole().toString(), accessToken,refreshToken);
+        return new Login_Response_DTO(user.getUserId(), user.getRole().toString(), accessToken,refreshToken);
     }
 
 
 
 
     public Login_Response_DTO refreshToken(String refreshToken) { // generate new access and refresh token using refresh token
-        Long userId = jwtService.getUserIdFromToken(refreshToken);
+        String userId = jwtService.getUserIdFromToken(refreshToken);
         sessionService.validateSession(refreshToken);
         User_Entity user = userService.getUserById(userId);
         String accessToken =  jwtService.generateAccessToken(user);
-        return new Login_Response_DTO(user.getId(), user.getRole().toString(), accessToken,refreshToken);
+        return new Login_Response_DTO(user.getUserId(), user.getRole().toString(), accessToken,refreshToken);
     }
 }
 

@@ -28,8 +28,7 @@ import java.util.Set;
 public class Subject_Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String Subject_Id;
+    private String subjectId;
 
 
     @Column(unique = true,nullable = false)

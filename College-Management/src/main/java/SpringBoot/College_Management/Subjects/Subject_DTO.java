@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 public class Subject_DTO {
 
-    private String subject_Id;
+    private String subjectId;
 
     @NotBlank(message = "Subject Name should not be blank")
     @Size(min = 3,message = "Enter valid subject name")

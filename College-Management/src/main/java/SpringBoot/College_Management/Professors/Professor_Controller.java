@@ -1,7 +1,6 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Students.Student_DTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ public class Professor_Controller {
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Professor_DTO> getProfessorByName(@PathVariable String professorId,
                                                             @PathVariable String professorName) {
-        Optional<Professor_DTO> professor = professorService.getProfessorByName(professorId, professorName);
+        Optional<Professor_DTO> professor = professorService.getProfessorByIdAndName(professorId, professorName);
         return professor
                 .map(professorDto -> ResponseEntity.ok(professorDto))
                 .orElseThrow(() -> new ResourceNotFound("Professor Not found with id " + professorName+" , name "+professorName));
