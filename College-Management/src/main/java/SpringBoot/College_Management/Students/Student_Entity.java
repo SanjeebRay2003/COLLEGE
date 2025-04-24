@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,7 +31,10 @@ public class Student_Entity {
     @Column(unique = true,nullable = false)
     private String email;
     private String contactNo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfAdmission;
+    private Boolean isActive;
     //student and course mapping
     @ManyToOne
     @JoinColumn(name = "course")

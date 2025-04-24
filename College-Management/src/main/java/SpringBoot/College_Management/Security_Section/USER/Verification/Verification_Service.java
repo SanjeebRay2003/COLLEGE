@@ -1,8 +1,8 @@
 //package SpringBoot.College_Management.Security_Section.Verification;
 //
 //import SpringBoot.College_Management.Security_Section.DTOs.User_DTO;
-//import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
-//import SpringBoot.College_Management.Security_Section.User_Repository;
+//import SpringBoot.College_Management.Security_Section.USER.User_Entity;
+//import SpringBoot.College_Management.Security_Section.USER.User_Repository;
 //import SpringBoot.College_Management.Students.Student_Entity;
 //import SpringBoot.College_Management.Students.Student_Repository;
 //import lombok.RequiredArgsConstructor;

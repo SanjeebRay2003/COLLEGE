@@ -1,8 +1,8 @@
-package SpringBoot.College_Management.Security_Section.Filter;
+package SpringBoot.College_Management.Security_Section.Authenticators.Filter;
 
-import SpringBoot.College_Management.Security_Section.Services.Jwt_Service;
-import SpringBoot.College_Management.Security_Section.Services.User_Service;
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.Authenticators.Jwt_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class Jwt_Authentication_Filter extends OncePerRequestFilter {
 
     private final Jwt_Service jwtService;
-    private final User_Service userService;
+    private final User_Authentication_Service userService;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")

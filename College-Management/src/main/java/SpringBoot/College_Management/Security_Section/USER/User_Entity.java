@@ -1,4 +1,4 @@
-package SpringBoot.College_Management.Security_Section.Entities;
+package SpringBoot.College_Management.Security_Section.USER;
 
 import SpringBoot.College_Management.Security_Section.Enums.Roles;
 import SpringBoot.College_Management.Security_Section.Utils.Permission_Mapping;
@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,7 +35,6 @@ public class User_Entity implements UserDetails {
     private Set<Roles> role;
 
     private String secretCode;
-
 
 
     @Override

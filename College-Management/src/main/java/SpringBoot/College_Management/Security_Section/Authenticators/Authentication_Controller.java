@@ -1,11 +1,10 @@
-package SpringBoot.College_Management.Security_Section;
+package SpringBoot.College_Management.Security_Section.Authenticators;
 
 import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.SignUp_DTO;
-import SpringBoot.College_Management.Security_Section.DTOs.User_Student_DTO;
-import SpringBoot.College_Management.Security_Section.Services.Authentication_Service;
-import SpringBoot.College_Management.Security_Section.Services.User_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
+import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class Authentication_Controller {
 
-    private final User_Service userService;
+    private final User_Authentication_Service userService;
     private final Authentication_Service authenticationService;
 
     @Value("${deploy.env}")
@@ -45,15 +44,6 @@ public class Authentication_Controller {
 
         return ResponseEntity.ok(loginResponseDto);
     }
-
-//    @PatchMapping(path = "/signUp/{userId}")
-////    @Secured("ROLE_USER")
-//    public ResponseEntity<User_DTO> updateUser(@PathVariable Long userId,
-//                                               @RequestBody Map<String, Object> updates){
-//        User_DTO update = userService.updateUser(userId,updates);
-//        if (update == null) return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok(update);
-//    }
 
     @PostMapping(path = "/refresh") // we got the refresh token from the cookies
     public ResponseEntity<Login_Response_DTO> refresh(HttpServletRequest request){

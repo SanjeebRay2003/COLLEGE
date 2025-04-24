@@ -1,6 +1,6 @@
 package SpringBoot.College_Management.Security_Section.Session;
 
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

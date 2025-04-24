@@ -1,16 +1,12 @@
-package SpringBoot.College_Management.Security_Section.Services;
+package SpringBoot.College_Management.Security_Section.USER;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Professors.Professor_Entity;
 import SpringBoot.College_Management.Professors.Professor_Repository;
 import SpringBoot.College_Management.Security_Section.DTOs.SignUp_DTO;
-import SpringBoot.College_Management.Security_Section.DTOs.User_Professor_DTO;
-import SpringBoot.College_Management.Security_Section.DTOs.User_Student_DTO;
 //import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
 //import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
-import SpringBoot.College_Management.Security_Section.User_Repository;
-import SpringBoot.College_Management.Security_Section.Verification.Verification_DTO;
+import SpringBoot.College_Management.Security_Section.USER.Verification.Verification_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import SpringBoot.College_Management.Students.Student_Service;
@@ -27,7 +23,7 @@ import java.util.*;
 
 @Service     // i comment it for temporary to use inMemory user details like username and password
 @RequiredArgsConstructor
-public class User_Service implements UserDetailsService {
+public class User_Authentication_Service implements UserDetailsService {
 
     private final Student_Repository studentRepository;
     private final Professor_Repository professorRepository;

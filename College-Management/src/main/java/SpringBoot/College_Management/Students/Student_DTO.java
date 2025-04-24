@@ -2,6 +2,7 @@ package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Custom_Validation.Semester.Validate_Semester;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -35,7 +36,9 @@ public class Student_DTO {
 
     @NotNull(message = "Admission date should not be Null")
     @PastOrPresent(message = "Date should not be future")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfAdmission;
+    private Boolean isActive;
     private Course_Entity course;
     private String secretCode;
 

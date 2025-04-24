@@ -1,6 +1,8 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Security_Section.USER.User_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
 import SpringBoot.College_Management.Subjects.Subject_Service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +22,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class Student_Controller {
     private final Student_Service studentService;
-    private final Subject_Service subjectService;
+
 
     @GetMapping(path = "/id/{studentId}/name/{studentName}")
-    @Secured({"ROLE_ADMIN","ROLE_STUDENT","ROLE_PROFESSOR"})
+    @Secured({"ROLE_ADMIN","ROLE_PROFESSOR"})
+
     public ResponseEntity<Student_DTO> getStudentByIdAndName(@PathVariable String studentId,
                                                         @PathVariable String studentName) {
         Optional<Student_DTO> student = studentService.getStudentByIdAndName(studentId, studentName);
@@ -32,19 +35,16 @@ public class Student_Controller {
                 .orElseThrow(() -> new ResourceNotFound("Student not found with id " + studentId + " , name " + studentName));
     }
 
-//    @GetMapping("/email/{email}")
-//    @PreAuthorize("@student_Service.getStudentByEmail(#email)")
-////    @Secured("ROLE_ADMIN")
-//    public ResponseEntity<Student_DTO> getStudentByEmail(@PathVariable String email) {
-//        return ResponseEntity.ok(studentService.getStudentByEmail(email));
-//
-//    }
+    @GetMapping("/owner/{studentId}")
+    @PreAuthorize("@owner_Of_Entity.isStudentOwner(#studentId)")
+    public ResponseEntity<Student_DTO> getAllDataByOwner(@PathVariable String studentId){
+        Optional<Student_DTO> student = studentService.getAllDataByOwner(studentId);
+        return student
+                .map(studentsDto -> ResponseEntity.ok(studentsDto))
+                .orElseThrow(() -> new ResourceNotFound("Student not found with id " + studentId ));
+    }
 
-//    @GetMapping(path = "/{id}") // only for checking the owner of the entity
-//    public ResponseEntity<Student_DTO> getStudentById(@PathVariable Long studentId){
-//      Student_DTO student = studentService.getStudentById(studentId);
-//      return ResponseEntity.ok(student);
-//    }
+
 
     @GetMapping // also get the sorted students
     @Secured({"ROLE_ADMIN","ROLE_PROFESSOR"})
@@ -79,15 +79,17 @@ public class Student_Controller {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping(path = "/update/id/{studentId}/name/{studentName}")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Student_DTO> partialUpdateStudentById(@PathVariable String studentId,
-                                                                @PathVariable String studentName,
-                                                                @RequestBody Map<String, Object> updates){
-        Student_DTO update =  studentService.partialUpdateStudentById(studentId,studentName,updates);
-        if (update == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(update);
-    }
+//    @PatchMapping(path = "/update/id/{studentId}/name/{studentName}")
+//    @Secured("ROLE_ADMIN")
+//    public ResponseEntity<Student_DTO> partialUpdateStudentById(@PathVariable String studentId,
+//                                                                @PathVariable String studentName,
+//                                                                @RequestBody Map<String, Object> updates){
+//        Student_DTO update =  studentService.partialUpdateStudentById(studentId,studentName,updates);
+//        if (update == null) return ResponseEntity.notFound().build();
+//        return ResponseEntity.ok(update);
+//    }
+
+
     
 
 }

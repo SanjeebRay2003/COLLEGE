@@ -1,9 +1,9 @@
-package SpringBoot.College_Management.Security_Section.Verification;
+package SpringBoot.College_Management.Security_Section.USER.Verification;
 
 
-import SpringBoot.College_Management.Security_Section.DTOs.User_Professor_DTO;
-import SpringBoot.College_Management.Security_Section.DTOs.User_Student_DTO;
-import SpringBoot.College_Management.Security_Section.Services.User_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Professor_DTO;
+import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
+import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/verification")
 public class User_Role_Verification {
 
-    private final User_Service userService;
+    private final User_Authentication_Service userService;
 
     @PutMapping("/students")
     public ResponseEntity<User_Student_DTO> verifyUserAsStudent (@RequestBody Verification_DTO verificationDto){

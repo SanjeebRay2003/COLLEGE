@@ -1,8 +1,10 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
-import SpringBoot.College_Management.Security_Section.User_Repository;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Repository;
+import SpringBoot.College_Management.Students.Student_DTO;
+import SpringBoot.College_Management.Students.Student_Entity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
@@ -96,19 +98,19 @@ public class Professor_Service {
         return true;
     }
 
-    public Professor_DTO partialUpdateProfessorByName(String professorId,String professorName, Map<String, Object> updates) {
-        isExistByIdAndName(professorId,professorName);
-        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
-
-        updates.forEach((field, value) -> {
-            Field fieldToUpdate = findRequiredField(Professor_Entity.class, field);
-            fieldToUpdate.setAccessible(true);
-            ReflectionUtils.setField(fieldToUpdate, professor, value);});
-
-        Professor_Entity updateRequiredField = professorRepository.save(professor);
-        return modelMapper.map(updateRequiredField,Professor_DTO.class);
-
-    }
+//    public Professor_DTO partialUpdateProfessorByName(String professorId,String professorName, Map<String, Object> updates) {
+//        isExistByIdAndName(professorId,professorName);
+//        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
+//
+//        updates.forEach((field, value) -> {
+//            Field fieldToUpdate = findRequiredField(Professor_Entity.class, field);
+//            fieldToUpdate.setAccessible(true);
+//            ReflectionUtils.setField(fieldToUpdate, professor, value);});
+//
+//        Professor_Entity updateRequiredField = professorRepository.save(professor);
+//        return modelMapper.map(updateRequiredField,Professor_DTO.class);
+//
+//    }
 
 
     public String generateSecretCode(){
@@ -118,5 +120,14 @@ public class Professor_Service {
     }
 
 
+    public Optional<Professor_DTO> getAllDataByOwner(String professorId) {
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorId(professorId);
+        return Optional.ofNullable(modelMapper.map(professorEntity, Professor_DTO.class));
+    }
+
+    public Professor_DTO getProfessorByProfessorId(String professorId) {
+        Optional<Professor_Entity> professor = professorRepository.findByProfessorId(professorId);
+        return modelMapper.map(professor,Professor_DTO.class);
+    }
 }
 

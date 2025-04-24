@@ -1,10 +1,11 @@
-package SpringBoot.College_Management.Security_Section.Services;
+package SpringBoot.College_Management.Security_Section.Authenticators;
 
 import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
 import SpringBoot.College_Management.Security_Section.Session.Session_Service;
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
-import SpringBoot.College_Management.Security_Section.User_Repository;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
+import SpringBoot.College_Management.Security_Section.USER.User_Repository;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +20,7 @@ public class Authentication_Service {
     private final AuthenticationManager authenticationManager;
     private final Jwt_Service jwtService;
     private final Student_Repository studentRepository;
-    private final User_Service userService;
+    private final User_Authentication_Service userService;
     private final Session_Service sessionService;
     private final User_Repository userRepository;
 

@@ -2,12 +2,14 @@ package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 //import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
-import SpringBoot.College_Management.Security_Section.User_Repository;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Repository;
+import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,12 +38,7 @@ public class Student_Service {
     }
 
     public Optional<Student_DTO> getStudentByIdAndName(String studentId,String studentName) {
-        Optional<User_Entity> userEntity = userRepository.findByStudentId(studentId);
-        Optional<Student_Entity> studentEntity = studentRepository.findByStudentId(studentId);
-        if (Objects.equals(userEntity.get().getStudentId(),studentEntity.get().getStudentId())) {
-            return studentRepository.findByStudentIdAndName(studentId, studentName).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
-        }
-        return null;
+        return studentRepository.findByStudentIdAndName(studentId, studentName).map(studentsEntity -> modelMapper.map(studentsEntity, Student_DTO.class));
     }
 
     public List<Student_DTO> getAllStudents(String sortBy) {
@@ -85,6 +82,8 @@ public class Student_Service {
         isExistByIdAndName(studentId,studentName);
         Student_Entity students = modelMapper.map(studentsDto, Student_Entity.class);
         students.setStudentId(studentId);
+        students.setSecretCode(generateSecretCode());
+//        students.setDateOfAdmission(studentsDto.getDateOfAdmission());
         Student_Entity updatedStudent = studentRepository.save(students);
         return modelMapper.map(updatedStudent, Student_DTO.class);
     }
@@ -97,19 +96,19 @@ public class Student_Service {
         return true;
     }
 
-    public Student_DTO partialUpdateStudentById(String studentId,String studentName, Map<String, Object> updates) {
-        isExistByIdAndName(studentId,studentName);
-        Student_Entity students = studentRepository.findByStudentIdAndName(studentId,studentName).get();
-
-        updates.forEach((field, value) -> {
-            Field fieldToUpdate = findRequiredField(Student_Entity.class, field);
-            fieldToUpdate.setAccessible(true);
-            ReflectionUtils.setField(fieldToUpdate, students, value);});
-
-        Student_Entity updateRequiredField = studentRepository.save(students);
-        return modelMapper.map(updateRequiredField,Student_DTO.class);
-
-    }
+//    public Student_DTO partialUpdateStudentById(String studentId,String studentName, Map<String, Object> updates) {
+//        isExistByIdAndName(studentId,studentName);
+//        Student_Entity students = studentRepository.findByStudentIdAndName(studentId,studentName).get();
+//
+//        updates.forEach((field, value) -> {
+//            Field fieldToUpdate = findRequiredField(Student_Entity.class, field);
+//            fieldToUpdate.setAccessible(true);
+//            ReflectionUtils.setField(fieldToUpdate, students, value);});
+//
+//        Student_Entity updateRequiredField = studentRepository.save(students);
+//        return modelMapper.map(updateRequiredField,Student_DTO.class);
+//
+//    }
 
     public Student_DTO getStudentByEmail(String email) {
        Optional<Student_Entity> student =  studentRepository.findByEmail(email);
@@ -123,24 +122,16 @@ public class Student_Service {
         return String.format("RU_STU"+"%d",code);
     }
 
-//    public Student_Entity generateCustomId(Student_Entity student) {
-//        long count = studentRepository.count() + 1;
-//        String customId = "STU_" + String.format("%d", count);
-//        student.setStudentId(customId);
-//        return studentRepository.save(student);
-//    }
+    public Student_DTO getStudentByStudentId(String studentId) {
+        Optional<Student_Entity> studentEntity = studentRepository.findByStudentId(studentId);
+        return modelMapper.map(studentEntity,Student_DTO.class);
+    }
 
-//
-//        public Student_DTO getStudentByEmail(String email) {
-//        Student_Entity student =  studentRepository.findByEmail(email);
-//        User_Entity user = (User_Entity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (student.getEmail().equals(user.getEmail())){
-//            System.out.println("welcome");
-//        }
-//        else {
-//            throw new ResourceNotFound("You are not the owner");
-//        }
-//        return modelMapper.map(student,Student_DTO.class);
-//    }
+    public Optional<Student_DTO> getAllDataByOwner(String studentId) {
+        Optional<Student_Entity> studentEntity = studentRepository.findByStudentId(studentId);
+        return Optional.ofNullable(modelMapper.map(studentEntity, Student_DTO.class));
+    }
+
+
 
 }

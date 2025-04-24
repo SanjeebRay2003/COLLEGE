@@ -1,6 +1,6 @@
-package SpringBoot.College_Management.Security_Section.Services;
+package SpringBoot.College_Management.Security_Section.Authenticators;
 
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

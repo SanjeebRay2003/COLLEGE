@@ -1,6 +1,6 @@
 package SpringBoot.College_Management.Security_Section.Session;
 
-import SpringBoot.College_Management.Security_Section.Entities.User_Entity;
+import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;

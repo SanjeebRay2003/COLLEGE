@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Students.Student_Details;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
 import SpringBoot.College_Management.Students.Student_DTO;
 import SpringBoot.College_Management.Students.Student_Service;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,11 @@ public class student_controller {
         return student
                 .map(studentsDto -> ResponseEntity.ok(studentsDto))
                 .orElseThrow(() -> new ResourceNotFound("Student not found with id " + studentId + " , name " + studentName));
+    }
+
+    @GetMapping("userDetails/{studentId}")
+    public ResponseEntity<User_Student_DTO> getStudentsUserDetails(@PathVariable String studentId){
+        return ResponseEntity.ok(studentService.getStudentsUserDetails(studentId));
     }
 
 }

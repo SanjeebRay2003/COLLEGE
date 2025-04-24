@@ -1,4 +1,4 @@
-package SpringBoot.College_Management.Security_Section.Verification;
+package SpringBoot.College_Management.Security_Section.USER.Verification;
 
 import lombok.Data;
 
