@@ -1,6 +1,5 @@
 package SpringBoot.College_Management.Departments;
 
-import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Courses.Course_Repository;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Students.Student_Repository;

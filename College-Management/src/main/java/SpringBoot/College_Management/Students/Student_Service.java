@@ -1,20 +1,21 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-//import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
-import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.util.ReflectionUtils.findRequiredField;
@@ -42,7 +43,7 @@ public class Student_Service {
     }
 
     public List<Student_DTO> getAllStudents(String sortBy) {
-        List<Student_Entity>  students = studentRepository.findBy(Sort.by(Sort.Direction.ASC,sortBy,"studentId","rollNo","dateOfAdmission"));
+        List<Student_Entity>  students = studentRepository.findBy(Sort.by(Sort.Direction.ASC,sortBy,"studentId","rollNo","dateOfAdmission","semester"));
         return students
                 .stream()
                 .map(studentEntity -> modelMapper.map(studentEntity, Student_DTO.class))
@@ -57,6 +58,8 @@ public class Student_Service {
         long count = studentRepository.count() + 1;
         String customId = "STU" + String.format("%03d", count)+"RU";
         students.setStudentId(customId);
+        String rollNumber = "RU"+studentsDto.getRollNo();
+        students.setRollNo(rollNumber);
 
         if (studentRepository.existsByRollNo(students.getRollNo())){
             throw new RuntimeException("Student already exist with Roll Number "+ students.getRollNo());
@@ -83,8 +86,32 @@ public class Student_Service {
         Student_Entity students = modelMapper.map(studentsDto, Student_Entity.class);
         students.setStudentId(studentId);
         students.setSecretCode(generateSecretCode());
-//        students.setDateOfAdmission(studentsDto.getDateOfAdmission());
+
+        Optional<User_Entity> user = userRepository.findByEmail(students.getEmail());
+        if (user.isPresent()){
+            user.get().setStudentId(null);
+            user.get().setSecretCode(null);
+        }
+
+        Optional<Student_Entity> studentEntity = studentRepository.findByStudentIdAndName(studentId,studentName);
+        students.setCourse(studentEntity.get().getCourse());
+
+        Optional<Student_Entity> existingEmail = studentRepository.findByEmail(studentsDto.getEmail());
+        if (existingEmail.isPresent() && !existingEmail.get().getStudentId().equals(students.getStudentId())) {
+            throw new RuntimeException("Email already exist for another Student " + studentsDto.getEmail()+ " -> "+existingEmail.get().getStudentId());
+        }
+
+        Optional<Student_Entity> existingRollNo = studentRepository.findByRollNo(studentsDto.getRollNo());
+        if (existingRollNo.isPresent() && !existingRollNo.get().getStudentId().equals(students.getStudentId())) {
+            throw new RuntimeException("Roll number already exist for another Student " + studentsDto.getRollNo()+ " -> "+existingRollNo.get().getStudentId());
+        }
+
+        if (!studentsDto.getDateOfAdmission().equals(existingEmail.get().getDateOfAdmission())){
+            throw new IllegalArgumentException("Date Of Admission Cant Changeable");
+        }
+
         Student_Entity updatedStudent = studentRepository.save(students);
+
         return modelMapper.map(updatedStudent, Student_DTO.class);
     }
 
@@ -96,19 +123,32 @@ public class Student_Service {
         return true;
     }
 
-//    public Student_DTO partialUpdateStudentById(String studentId,String studentName, Map<String, Object> updates) {
-//        isExistByIdAndName(studentId,studentName);
-//        Student_Entity students = studentRepository.findByStudentIdAndName(studentId,studentName).get();
-//
-//        updates.forEach((field, value) -> {
-//            Field fieldToUpdate = findRequiredField(Student_Entity.class, field);
-//            fieldToUpdate.setAccessible(true);
-//            ReflectionUtils.setField(fieldToUpdate, students, value);});
-//
-//        Student_Entity updateRequiredField = studentRepository.save(students);
-//        return modelMapper.map(updateRequiredField,Student_DTO.class);
-//
-//    }
+    public Student_DTO partialUpdateStudentById(String studentId,String studentName, Map<String, Object> updates) {
+        isExistByIdAndName(studentId,studentName);
+        Student_Entity students = studentRepository.findByStudentIdAndName(studentId,studentName).get();
+
+        updates.forEach((field, value) -> {
+            Field fieldToUpdate = findRequiredField(Student_Entity.class, field);
+            fieldToUpdate.setAccessible(true);
+            ReflectionUtils.setField(fieldToUpdate, students, value);
+        });
+
+        Optional<Student_Entity> existingEmail = studentRepository.findByEmail(students.getEmail());
+        if (existingEmail.isPresent() && !existingEmail.get().getStudentId().equals(students.getStudentId())) {
+            throw new RuntimeException("Email already exist for another Student " + students.getEmail()+ " -> "+existingEmail.get().getStudentId());
+        }
+
+        Optional<Student_Entity> existingRollNo = studentRepository.findByRollNo(students.getRollNo());
+        if (existingRollNo.isPresent() && !existingRollNo.get().getStudentId().equals(students.getStudentId())) {
+            throw new RuntimeException("Roll number already exist for another Student " + students.getRollNo()+ " -> "+existingRollNo.get().getStudentId());
+        }
+
+
+        Student_Entity updateRequiredField = studentRepository.save(students);
+        return modelMapper.map(updateRequiredField,Student_DTO.class);
+
+    }
+
 
     public Student_DTO getStudentByEmail(String email) {
        Optional<Student_Entity> student =  studentRepository.findByEmail(email);

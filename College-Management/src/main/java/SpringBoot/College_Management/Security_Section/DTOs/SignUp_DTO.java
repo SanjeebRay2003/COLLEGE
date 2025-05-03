@@ -8,11 +8,9 @@ import java.util.Set;
 
 @Data
 public class SignUp_DTO {
-    private String studentId;
     private String name;
     private String email;
     private String password;
-    private String secretCode;
     private Set<Roles> role;
     private Set<Permissions> permissions;
 }

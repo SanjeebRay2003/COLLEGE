@@ -1,6 +1,6 @@
 package SpringBoot.College_Management.Courses;
 
-import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
+//import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Departments.Department_Entity;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Subjects.Subject_Entity;
@@ -50,9 +50,9 @@ public class Course_Entity {
 //            joinColumns = @JoinColumn(name = "Course_Id"),
 //            inverseJoinColumns = @JoinColumn(name = "Semester_Id"))
 //    @JsonIgnore
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private Set<Semester_Enum> semesters;
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @Enumerated(EnumType.STRING)
+//    private Set<Semester_Enum> semesters;
 
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY)

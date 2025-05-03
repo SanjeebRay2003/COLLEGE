@@ -1,6 +1,5 @@
 package SpringBoot.College_Management.Custom_Validation.Course;
 
-import SpringBoot.College_Management.Custom_Validation.Semester.Validate_Semester;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

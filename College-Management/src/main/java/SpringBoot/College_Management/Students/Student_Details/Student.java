@@ -1,6 +1,5 @@
 package SpringBoot.College_Management.Students.Student_Details;
 
-import SpringBoot.College_Management.Students.Student_Entity;
 import lombok.Data;
 
 @Data

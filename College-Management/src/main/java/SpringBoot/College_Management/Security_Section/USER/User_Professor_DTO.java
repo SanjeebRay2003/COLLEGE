@@ -14,5 +14,6 @@ public class User_Professor_DTO {
     private Set<Roles> role;
     private String professorId;
     private String secretCode;
+    private Boolean isActive;
 
 }

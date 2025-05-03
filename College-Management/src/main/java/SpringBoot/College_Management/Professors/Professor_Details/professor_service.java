@@ -2,9 +2,6 @@ package SpringBoot.College_Management.Professors.Professor_Details;
 
 import SpringBoot.College_Management.Professors.Professor_Entity;
 import SpringBoot.College_Management.Professors.Professor_Repository;
-import SpringBoot.College_Management.Students.Student_Details.Student;
-import SpringBoot.College_Management.Students.Student_Entity;
-import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

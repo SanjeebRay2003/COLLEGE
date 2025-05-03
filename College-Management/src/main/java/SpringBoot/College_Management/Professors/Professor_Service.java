@@ -3,7 +3,6 @@ package SpringBoot.College_Management.Professors;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
-import SpringBoot.College_Management.Students.Student_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -82,10 +81,26 @@ public class Professor_Service {
 
     public Professor_DTO updateProfessor(String professorId,String professorName,Professor_DTO professorDto) {
         isExistByIdAndName(professorId,professorName);
-        Professor_Entity professorEntity = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
+//        Professor_Entity professorEntity = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
         Professor_Entity professor = modelMapper.map(professorDto, Professor_Entity.class);
         professor.setProfessorId(professorId);
-//        professor.setName(professorName);
+        professor.setSecretCode(generateSecretCode());
+
+        Optional<User_Entity> user = userRepository.findByEmail(professor.getEmail());
+        if (user.isPresent()){
+            user.get().setProfessorId(null);
+            user.get().setSecretCode(null);
+        }
+
+        Optional<Professor_Entity> professorEntity = professorRepository.findByProfessorIdAndName(professorId,professorName);
+        professor.setSubjects(professorEntity.get().getSubjects());
+
+        Optional<Professor_Entity> existingEmail = professorRepository.findByEmail(professorDto.getEmail());
+        if (existingEmail.isPresent() && !existingEmail.get().getProfessorId().equals(professor.getProfessorId())) {
+            throw new RuntimeException("Email already exist for another Professor " + professorDto.getEmail()+ " -> "+existingEmail.get().getProfessorId());
+        }
+
+
         Professor_Entity updatedProfessor = professorRepository.save(professor);
         return modelMapper.map(updatedProfessor, Professor_DTO.class);
     }
@@ -98,19 +113,24 @@ public class Professor_Service {
         return true;
     }
 
-//    public Professor_DTO partialUpdateProfessorByName(String professorId,String professorName, Map<String, Object> updates) {
-//        isExistByIdAndName(professorId,professorName);
-//        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
-//
-//        updates.forEach((field, value) -> {
-//            Field fieldToUpdate = findRequiredField(Professor_Entity.class, field);
-//            fieldToUpdate.setAccessible(true);
-//            ReflectionUtils.setField(fieldToUpdate, professor, value);});
-//
-//        Professor_Entity updateRequiredField = professorRepository.save(professor);
-//        return modelMapper.map(updateRequiredField,Professor_DTO.class);
-//
-//    }
+    public Professor_DTO partialUpdateProfessorByName(String professorId,String professorName, Map<String, Object> updates) {
+        isExistByIdAndName(professorId,professorName);
+        Professor_Entity professor = professorRepository.findByProfessorIdAndName(professorId,professorName).get();
+
+        updates.forEach((field, value) -> {
+            Field fieldToUpdate = findRequiredField(Professor_Entity.class, field);
+            fieldToUpdate.setAccessible(true);
+            ReflectionUtils.setField(fieldToUpdate, professor, value);});
+
+        Optional<Professor_Entity> existingEmail = professorRepository.findByEmail(professor.getEmail());
+        if (existingEmail.isPresent() && !existingEmail.get().getProfessorId().equals(professor.getProfessorId())) {
+            throw new RuntimeException("Email already exist for another Professor " + professor.getEmail()+ " -> "+existingEmail.get().getProfessorId());
+        }
+
+        Professor_Entity updateRequiredField = professorRepository.save(professor);
+        return modelMapper.map(updateRequiredField,Professor_DTO.class);
+
+    }
 
 
     public String generateSecretCode(){

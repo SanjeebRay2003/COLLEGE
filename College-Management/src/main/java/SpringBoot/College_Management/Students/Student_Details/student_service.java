@@ -1,15 +1,14 @@
 package SpringBoot.College_Management.Students.Student_Details;
 
 //import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
+
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
 import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
-import SpringBoot.College_Management.Students.Student_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

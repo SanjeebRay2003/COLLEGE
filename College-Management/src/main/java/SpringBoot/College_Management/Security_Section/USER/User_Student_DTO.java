@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -20,6 +18,7 @@ public class User_Student_DTO {
     private Set<Roles> role;
     private String studentId;
     private String secretCode;
+    private Boolean isActive;
 
 
 }

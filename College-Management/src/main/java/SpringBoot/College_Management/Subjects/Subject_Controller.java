@@ -41,12 +41,12 @@ public class Subject_Controller {
 
     }
 
-    @PutMapping(path = "/{subjectName}")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Subject_DTO> updateSubject(@PathVariable String subjectName , @RequestBody @Valid Subject_DTO subjectDto){
-        subjectService.isExistByID(subjectName);
-        return ResponseEntity.ok(subjectService.updateSubject(subjectName,subjectDto));
-    }
+//    @PutMapping(path = "/{subjectName}")
+//    @Secured("ROLE_ADMIN")
+//    public ResponseEntity<Subject_DTO> updateSubject(@PathVariable String subjectName , @RequestBody @Valid Subject_DTO subjectDto){
+//        subjectService.isExistByID(subjectName);
+//        return ResponseEntity.ok(subjectService.updateSubject(subjectName,subjectDto));
+//    }
 
     @DeleteMapping(path = "/{subjectName}")
     @Secured("ROLE_ADMIN")

@@ -1,5 +1,7 @@
 package SpringBoot.College_Management.Security_Section.USER;
 
+import SpringBoot.College_Management.Security_Section.Enums.Roles;
+import SpringBoot.College_Management.Students.Student_Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +20,14 @@ public interface User_Repository extends JpaRepository<User_Entity,String> {
     boolean existsByUserId(String userId);
 
     User_Entity findByUserId(String userId);
+    
+    
+    // Sorting
+
+
+    List<User_Entity> findByIsActive(Boolean active);
+
+    List<User_Entity> findByName(String name);
+
+    List<User_Entity> findByRole(Roles role);
 }

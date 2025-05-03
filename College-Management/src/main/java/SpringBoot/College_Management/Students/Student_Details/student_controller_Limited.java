@@ -2,12 +2,8 @@ package SpringBoot.College_Management.Students.Student_Details;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
-import SpringBoot.College_Management.Students.Student_DTO;
-import SpringBoot.College_Management.Students.Student_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/STUDENT")
-public class student_controller {
+public class student_controller_Limited {
 
     private final student_service studentService;
 

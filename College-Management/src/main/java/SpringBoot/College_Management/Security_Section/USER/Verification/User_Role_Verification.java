@@ -1,12 +1,15 @@
 package SpringBoot.College_Management.Security_Section.USER.Verification;
 
 
+import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
 import SpringBoot.College_Management.Security_Section.USER.User_Professor_DTO;
 import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
-import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,11 +1,6 @@
 package SpringBoot.College_Management.Subjects;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Professors.Professor_Repository;
-//import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
-import SpringBoot.College_Management.Students.Student_DTO;
-import SpringBoot.College_Management.Students.Student_Entity;
-import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -59,15 +54,20 @@ public class Subject_Service {
     }
 
 
-    public Subject_DTO updateSubject(String subjectName, Subject_DTO subjectDto) {
-        isExistByID(subjectName);
-        Subject_Entity subjectEntity = modelMapper.map(subjectDto, Subject_Entity.class);
-        Subject_Entity subject = subjectRepository.findBySubject(subjectName)
-                .orElseThrow(()-> new ResourceNotFound("subject Not found with name"+subjectName));
-        subject.setSubject(subjectDto.getSubject());
-        Subject_Entity updatedSubject = subjectRepository.save(subject);
-        return modelMapper.map(updatedSubject, Subject_DTO.class);
-    }
+//    public Subject_DTO updateSubject(String subjectName, Subject_DTO subjectDto) {
+//        isExistByID(subjectName);
+//        Subject_Entity subjectEntity = modelMapper.map(subjectDto, Subject_Entity.class);
+//        Subject_Entity subject = subjectRepository.findBySubject(subjectName)
+//                .orElseThrow(()-> new ResourceNotFound("subject Not found with name"+subjectName));
+//
+//
+//        subjectEntity.setCourse(subject.getCourse());
+//        subjectEntity.setProfessors(subject.getProfessors());
+//
+//        subjectEntity.setSubject(subjectDto.getSubject());
+//        Subject_Entity updatedSubject = subjectRepository.save(subject);
+//        return modelMapper.map(updatedSubject, Subject_DTO.class);
+//    }
 
     @Transactional
     public boolean deleteSubjectById(String subjectName) {

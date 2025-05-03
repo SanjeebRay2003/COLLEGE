@@ -41,6 +41,4 @@ public class Student_DTO {
     private Boolean isActive;
     private Course_Entity course;
     private String secretCode;
-
-//    private User_Entity owner;
 }

@@ -1,7 +1,6 @@
 package SpringBoot.College_Management.Professors;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Students.Student_DTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,6 +64,7 @@ public class Professor_Controller {
         }
         return ResponseEntity.notFound().build();
     }
+
     @GetMapping("/owner/{professorId}")
     @PreAuthorize("@owner_Of_Entity.isProfessorOwner(#professorId)")
     public ResponseEntity<Professor_DTO> getAllDataByOwner(@PathVariable String professorId){
@@ -74,15 +74,15 @@ public class Professor_Controller {
                 .orElseThrow(() -> new ResourceNotFound("Professor not found with id " + professorId ));
     }
 
-//    @PatchMapping(path = "/update/id/{professorId}/name/{professorName}")
-//    @Secured("ROLE_ADMIN")
-//    public ResponseEntity<Professor_DTO> partialUpdateProfessorByName(@PathVariable String professorId,
-//                                                                      @PathVariable String professorName,
-//                                                                      @RequestBody Map<String, Object> updates) {
-//        Professor_DTO update = professorService.partialUpdateProfessorByName(professorId,professorName, updates);
-//        if (update == null) return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok(update);
-//    }
+    @PatchMapping(path = "/update/id/{professorId}/name/{professorName}")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Professor_DTO> partialUpdateProfessorByName(@PathVariable String professorId,
+                                                                      @PathVariable String professorName,
+                                                                      @RequestBody Map<String, Object> updates) {
+        Professor_DTO update = professorService.partialUpdateProfessorByName(professorId,professorName, updates);
+        if (update == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(update);
+    }
 
 
 }

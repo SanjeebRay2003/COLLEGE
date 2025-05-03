@@ -4,8 +4,7 @@ import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler
 import SpringBoot.College_Management.Professors.Professor_Entity;
 import SpringBoot.College_Management.Professors.Professor_Repository;
 import SpringBoot.College_Management.Security_Section.DTOs.SignUp_DTO;
-//import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
-//import SpringBoot.College_Management.Security_Section.Owner_Details.Owner_Of_Entity;
+import SpringBoot.College_Management.Security_Section.Enums.Roles;
 import SpringBoot.College_Management.Security_Section.USER.Verification.Verification_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
@@ -19,7 +18,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service     // i comment it for temporary to use inMemory user details like username and password
 @RequiredArgsConstructor
@@ -50,7 +51,27 @@ public class User_Authentication_Service implements UserDetailsService {
     }
 
 
-    public User_Student_DTO signUp(SignUp_DTO sign_Up) {
+    public User_Student_DTO studentSignUp(SignUp_DTO sign_Up) {
+
+        Optional<User_Entity> user = userStudentRepository.findByEmail(sign_Up.getEmail());
+
+        if (user.isPresent()){
+            throw new BadCredentialsException("User already exist with Email " +sign_Up.getEmail());
+        }
+        User_Entity toSaveUser = modelMapper.map(sign_Up, User_Entity.class);
+
+        long count = userStudentRepository.count() + 1;
+        String customId = "USER_" + String.format("%d", count);
+        toSaveUser.setUserId(customId);
+
+        toSaveUser.setRole(Collections.singleton(Roles.PROFESSOR));
+
+        toSaveUser.setPassword(passwordEncoder.encode(toSaveUser.getPassword())); // encode the password
+        User_Entity saveUser = userStudentRepository.save(toSaveUser);
+        return modelMapper.map(saveUser, User_Student_DTO.class);
+    }
+
+    public User_Professor_DTO professorSignUp(SignUp_DTO sign_Up) {
 
         Optional<User_Entity> user = userStudentRepository.findByEmail(sign_Up.getEmail());
 
@@ -65,7 +86,7 @@ public class User_Authentication_Service implements UserDetailsService {
 
         toSaveUser.setPassword(passwordEncoder.encode(toSaveUser.getPassword())); // encode the password
         User_Entity saveUser = userStudentRepository.save(toSaveUser);
-        return modelMapper.map(saveUser, User_Student_DTO.class);
+        return modelMapper.map(saveUser, User_Professor_DTO.class);
     }
 
 
@@ -89,8 +110,12 @@ public class User_Authentication_Service implements UserDetailsService {
                 Objects.equals(verificationDto.getSecretCode(), student1.getSecretCode())) {
                 user1.setStudentId(student1.getStudentId());
                 user1.setSecretCode(student1.getSecretCode());
+                user1.setIsActive(student1.getIsActive());
             userStudentRepository.save(user1);
-            }
+            }else {
+            throw new BadCredentialsException("User Email and User SecretCode are not Matched");
+        }
+
 
         return modelMapper.map(user1, User_Student_DTO.class);
        } )).orElseThrow(() ->new BadCredentialsException("UnAuthorized"));
@@ -104,7 +129,7 @@ public class User_Authentication_Service implements UserDetailsService {
         Optional<User_Entity> userEntity = userRepository.findByEmail(verificationDto.getEmail());
 
         if(!professorRepository.existsByEmail(verificationDto.getEmail())){
-            throw new ResourceNotFound("Student not found with email "+verificationDto.getEmail());
+            throw new ResourceNotFound("Professor not found with email "+verificationDto.getEmail());
         }
 
         if(!userRepository.existsByEmail(verificationDto.getEmail())){
@@ -117,13 +142,18 @@ public class User_Authentication_Service implements UserDetailsService {
                     Objects.equals(verificationDto.getSecretCode(), professor.getSecretCode())) {
                 user1.setProfessorId(professor.getProfessorId());
                 user1.setSecretCode(professor.getSecretCode());
+                user1.setIsActive(professor.getIsActive());
                 userRepository.save(user1);
+            }else {
+                throw new BadCredentialsException("User Email and User SecretCode are not Matched");
             }
 
             return modelMapper.map(user1, User_Professor_DTO.class);
         } )).orElseThrow(() ->new BadCredentialsException("UnAuthorized"));
 
     }
+
+
 }
 
 

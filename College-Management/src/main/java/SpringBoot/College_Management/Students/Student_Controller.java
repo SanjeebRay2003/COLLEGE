@@ -1,9 +1,6 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-import SpringBoot.College_Management.Security_Section.USER.User_Service;
-import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
-import SpringBoot.College_Management.Subjects.Subject_Service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -79,15 +75,15 @@ public class Student_Controller {
         return ResponseEntity.notFound().build();
     }
 
-//    @PatchMapping(path = "/update/id/{studentId}/name/{studentName}")
-//    @Secured("ROLE_ADMIN")
-//    public ResponseEntity<Student_DTO> partialUpdateStudentById(@PathVariable String studentId,
-//                                                                @PathVariable String studentName,
-//                                                                @RequestBody Map<String, Object> updates){
-//        Student_DTO update =  studentService.partialUpdateStudentById(studentId,studentName,updates);
-//        if (update == null) return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok(update);
-//    }
+    @PatchMapping(path = "/update/id/{studentId}/name/{studentName}")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Student_DTO> partialUpdateStudentById(@PathVariable String studentId,
+                                                                @PathVariable String studentName,
+                                                                @RequestBody Map<String, Object> updates){
+        Student_DTO update =  studentService.partialUpdateStudentById(studentId,studentName,updates);
+        if (update == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(update);
+    }
 
 
     

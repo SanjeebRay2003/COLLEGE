@@ -2,7 +2,6 @@ package SpringBoot.College_Management.Courses;
 
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

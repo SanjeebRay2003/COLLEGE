@@ -13,7 +13,4 @@ public interface Course_Repository extends JpaRepository<Course_Entity, String> 
     void deleteByCourse(String course);
     Boolean existsByStudents(Student_Entity student);
 
-//    void existsBySemester(String semester);
-
-//    Optional<Course_Entity> findBySemesters(String semester);
 }

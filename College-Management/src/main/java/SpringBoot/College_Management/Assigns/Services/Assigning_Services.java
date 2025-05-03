@@ -8,18 +8,6 @@ import SpringBoot.College_Management.Departments.Department_Entity;
 import SpringBoot.College_Management.Departments.Department_Repository;
 import SpringBoot.College_Management.Professors.Professor_Entity;
 import SpringBoot.College_Management.Professors.Professor_Repository;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Repository;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Repository;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Repository;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Repository;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import SpringBoot.College_Management.Subjects.Subject_DTO;
@@ -30,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +59,7 @@ public class Assigning_Services {
         Optional<Student_Entity> studentEntity = studentRepository.findByStudentIdAndName(studentId,studentName);
 
         if (courseRepository.existsByStudents(studentEntity.get())) {
-            throw new RuntimeException("Student with id " + studentId + " and name "+studentName +"already exists");
+            throw new RuntimeException("Student with id " + studentId + " and name "+studentName +" already exists");
         }
 
         return courseEntity.flatMap(course -> studentEntity.map(

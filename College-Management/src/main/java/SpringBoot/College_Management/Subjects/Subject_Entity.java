@@ -1,10 +1,7 @@
 package SpringBoot.College_Management.Subjects;
 
 import SpringBoot.College_Management.Courses.Course_Entity;
-import SpringBoot.College_Management.Courses.Enums.Semester_Enum;
 import SpringBoot.College_Management.Professors.Professor_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

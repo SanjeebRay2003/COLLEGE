@@ -1,10 +1,6 @@
 package SpringBoot.College_Management.Courses;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
-//import SpringBoot.College_Management.Semesters.Semester_DTO;
-//import SpringBoot.College_Management.Semesters.Semester_Entity;
-//import SpringBoot.College_Management.Semesters.Semester_Repository;
-import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,7 +23,7 @@ public class Course_Service {
         Course_Entity course = modelMapper.map(courseDto,Course_Entity.class);
 
         long count = courseRepository.count() + 1;
-        String customId = "DEP_" + String.format("%d", count);
+        String customId = "COR_" + String.format("%d", count);
         course.setCourseId(customId);
 
         if (courseRepository.existsByCourse(course.getCourse())) {
@@ -62,13 +58,4 @@ public class Course_Service {
         return true;
     }
 
-
-//    public Course_DTO addSemesters(Semester_DTO semesterDto) {
-//        Semester_Entity semesterEntity = modelMapper.map(semesterDto,Semester_Entity.class);
-////        if (courseRepository.existsByCourse(course.getCourse())) {
-////            throw new RuntimeException("Course with "+course.getCourse()+" name is already exists");
-////        }
-//        Semester_Entity saveSemester = semesterRepository.save(semesterEntity);
-//        return modelMapper.map(saveSemester,Course_DTO.class);
-//    }
 }

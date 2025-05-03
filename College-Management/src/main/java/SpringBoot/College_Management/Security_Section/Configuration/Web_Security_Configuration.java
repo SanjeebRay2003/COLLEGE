@@ -1,6 +1,11 @@
 package SpringBoot.College_Management.Security_Section.Configuration;
 
 import SpringBoot.College_Management.Security_Section.Authenticators.Filter.Jwt_Authentication_Filter;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +22,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
+
+// These Two annotations are used to add authorized button in swagger UI
+@OpenAPIDefinition(
+        info = @Info(title = "My API", version = "v1"),
+        security = @SecurityRequirement(name = "bearerAuth")
+)
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT"
+)
 public class Web_Security_Configuration {
 
     private final Jwt_Authentication_Filter jwtAuthenticationFilter;
@@ -27,6 +44,11 @@ public class Web_Security_Configuration {
 
         httpSecurity.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/error", "/authentication/**", "/home.html").permitAll()
+                                .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
 //                                .requestMatchers("/assign/**").hasRole(ADMIN.name())
 //                                .requestMatchers(HttpMethod.GET, "/students/**", "/authentication/**", "/professors/**",
 //                                        "/departments/**", "/courses/**").permitAll()
