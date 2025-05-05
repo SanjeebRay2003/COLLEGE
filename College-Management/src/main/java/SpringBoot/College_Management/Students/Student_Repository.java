@@ -1,6 +1,5 @@
 package SpringBoot.College_Management.Students;
 
-import SpringBoot.College_Management.Courses.Course_Entity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

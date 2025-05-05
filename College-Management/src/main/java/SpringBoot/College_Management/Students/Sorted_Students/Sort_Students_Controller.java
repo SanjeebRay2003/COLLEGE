@@ -1,7 +1,5 @@
 package SpringBoot.College_Management.Students.Sorted_Students;
 
-import SpringBoot.College_Management.Courses.Course_DTO;
-import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Students.Student_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

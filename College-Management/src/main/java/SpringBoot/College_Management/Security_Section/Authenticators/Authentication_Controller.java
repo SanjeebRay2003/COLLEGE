@@ -4,7 +4,6 @@ import SpringBoot.College_Management.Security_Section.DTOs.Login_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.Login_Response_DTO;
 import SpringBoot.College_Management.Security_Section.DTOs.SignUp_DTO;
 import SpringBoot.College_Management.Security_Section.USER.User_Authentication_Service;
-import SpringBoot.College_Management.Security_Section.USER.User_DTO;
 import SpringBoot.College_Management.Security_Section.USER.User_Professor_DTO;
 import SpringBoot.College_Management.Security_Section.USER.User_Student_DTO;
 import jakarta.servlet.http.Cookie;

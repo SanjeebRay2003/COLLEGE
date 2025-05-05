@@ -1,6 +1,7 @@
 package SpringBoot.College_Management.Students;
 
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
+import SpringBoot.College_Management.Security_Section.Sending_Emails.Send_Email;
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +26,7 @@ public class Student_Service {
     private final Student_Repository studentRepository;
     private final ModelMapper modelMapper;
     private final User_Repository userRepository;
+    private final Send_Email sendEmail;
 
 
     // It Checks Id is present or not
@@ -77,6 +78,19 @@ public class Student_Service {
 
         Student_Entity savedStudent = studentRepository.save(students);
 
+        sendEmail.sendEmailForNewGeneratedSecretCode(
+                savedStudent.getEmail(),
+                "WellCome to Raffles University Neemrana",
+                "Here is Your Details -> \n \n" +
+                        "name = "+savedStudent.getName()+"\n"+
+                        "rollNo = "+savedStudent.getRollNo()+"\n"+
+                        "email = "+savedStudent.getEmail()+"\n"+
+                        "semester = "+savedStudent.getSemester()+"\n"+
+                        "contactNo = "+savedStudent.getContactNo()+"\n"+
+                        "dateOfAdmission = "+savedStudent.getDateOfAdmission()+"\n"+
+                        "SecretCode = "+savedStudent.getSecretCode()
+        );
+
         return modelMapper.map(savedStudent, Student_DTO.class);
     }
 
@@ -111,6 +125,21 @@ public class Student_Service {
         }
 
         Student_Entity updatedStudent = studentRepository.save(students);
+
+        sendEmail.sendEmailForNewGeneratedSecretCode(
+                updatedStudent.getEmail(),
+                "WellCome to Raffles University Neemrana",
+                "Here is Your Details -> \n \n" +
+                        "name = "+updatedStudent.getName()+"\n"+
+                        "rollNo = "+updatedStudent.getRollNo()+"\n"+
+                        "email = "+updatedStudent.getEmail()+"\n"+
+                        "semester = "+updatedStudent.getSemester()+"\n"+
+                        "contactNo = "+updatedStudent.getContactNo()+"\n"+
+                        "dateOfAdmission = "+updatedStudent.getDateOfAdmission()+"\n\n"+
+                        "This is your New Secret Code ->   " +updatedStudent.getSecretCode()
+
+        );
+
 
         return modelMapper.map(updatedStudent, Student_DTO.class);
     }
@@ -171,6 +200,7 @@ public class Student_Service {
         Optional<Student_Entity> studentEntity = studentRepository.findByStudentId(studentId);
         return Optional.ofNullable(modelMapper.map(studentEntity, Student_DTO.class));
     }
+
 
 
 

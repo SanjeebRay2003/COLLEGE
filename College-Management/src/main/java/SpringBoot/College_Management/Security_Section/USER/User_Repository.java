@@ -1,7 +1,6 @@
 package SpringBoot.College_Management.Security_Section.USER;
 
 import SpringBoot.College_Management.Security_Section.Enums.Roles;
-import SpringBoot.College_Management.Students.Student_Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -5,8 +5,6 @@ import SpringBoot.College_Management.Security_Section.Enums.Roles;
 import SpringBoot.College_Management.Security_Section.USER.User_DTO;
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
-import SpringBoot.College_Management.Students.Student_DTO;
-import SpringBoot.College_Management.Students.Student_Entity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

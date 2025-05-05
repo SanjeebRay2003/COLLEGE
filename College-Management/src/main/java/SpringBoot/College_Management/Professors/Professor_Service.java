@@ -3,7 +3,6 @@ package SpringBoot.College_Management.Professors;
 import SpringBoot.College_Management.Exception_Handling.Custom_Exception_Handler.ResourceNotFound;
 import SpringBoot.College_Management.Security_Section.USER.User_Entity;
 import SpringBoot.College_Management.Security_Section.USER.User_Repository;
-import SpringBoot.College_Management.Students.Student_Entity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;

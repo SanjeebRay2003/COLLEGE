@@ -61,6 +61,7 @@ public class User_Controller {
     }
 
     @PatchMapping("/update/professor/{userId}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<User_Professor_DTO> partialUpdateProfessorUser(@PathVariable String userId,
                                                        @RequestBody Map<String, Object> updates){
         User_Professor_DTO update =  userService.partialUpdateProfessorUser(userId,updates);

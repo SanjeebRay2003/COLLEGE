@@ -2,7 +2,6 @@ package SpringBoot.College_Management.Professors.Sorted_Professors;
 
 
 import SpringBoot.College_Management.Professors.Professor_DTO;
-import SpringBoot.College_Management.Students.Student_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

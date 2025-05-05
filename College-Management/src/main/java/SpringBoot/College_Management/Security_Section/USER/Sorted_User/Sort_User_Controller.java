@@ -2,7 +2,6 @@ package SpringBoot.College_Management.Security_Section.USER.Sorted_User;
 
 import SpringBoot.College_Management.Security_Section.Enums.Roles;
 import SpringBoot.College_Management.Security_Section.USER.User_DTO;
-import SpringBoot.College_Management.Students.Student_DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,20 +1,15 @@
 package SpringBoot.College_Management.Students.Sorted_Students;
 
-import SpringBoot.College_Management.Courses.Course_DTO;
-import SpringBoot.College_Management.Courses.Course_Entity;
 import SpringBoot.College_Management.Courses.Course_Repository;
 import SpringBoot.College_Management.Students.Student_DTO;
 import SpringBoot.College_Management.Students.Student_Entity;
 import SpringBoot.College_Management.Students.Student_Repository;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
